@@ -16,9 +16,20 @@ sealed class Screens(val route: String, val title: String){
     }
 
     object ChatDetail: Screens(route = "chatDetail", title = "Chat")
+
+    sealed class LoginFlowScreens(
+        route: String,
+        title: String,
+    ): Screens(route, title){
+        object Login: LoginFlowScreens(route = "loginScreen", title = "Login")
+        object SignUp: LoginFlowScreens(route = "signUpScreen", title = "SignUp")
+    }
 }
 
 val bottomNavScreens = listOf(
     Screens.BottomNavScreens.Home,
     Screens.BottomNavScreens.Search
 )
+
+const val bottomNavScreensRoute: String = "homeScreensRoute"
+const val loginFlowScreensRoute: String = "loginScreensRoute"

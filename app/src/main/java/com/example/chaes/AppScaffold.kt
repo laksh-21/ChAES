@@ -30,7 +30,7 @@ fun AppScaffold(
                 BottomNavBar(navController = navController, bottomNavScreens)
             }
         }
-    ) {
-        Navigator(navController = navController as NavHostController)
+    ) { paddingValues ->
+        Navigator(navController = navController as NavHostController, paddingValues = paddingValues)
     }
 }
