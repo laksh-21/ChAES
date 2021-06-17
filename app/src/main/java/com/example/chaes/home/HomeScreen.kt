@@ -9,5 +9,10 @@ import com.example.chaes.Screens
 
 @Composable
 fun HomeScreen(navController: NavController){
-    Text(text = "Hello Home!")
+    Column {
+        Text(text = "Hello Home!")
+        Button(onClick = {navController.navigate(Screens.ChatDetail.route)}){
+            Text(text = "Click me!")
+        }
+    }
 }

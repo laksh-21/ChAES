@@ -14,6 +14,8 @@ sealed class Screens(val route: String, val title: String){
         object Home: BottomNavScreens("homeScreen", "Home", Icons.Filled.Home)
         object Search: BottomNavScreens("searchScreen", "Search", Icons.Filled.Search)
     }
+
+    object ChatDetail: Screens(route = "chatDetail", title = "Chat")
 }
 
 val bottomNavScreens = listOf(

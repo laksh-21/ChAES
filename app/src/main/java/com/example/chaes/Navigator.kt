@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.chaes.detail.ChatDetailScreen
 import com.example.chaes.home.HomeScreen
 import com.example.chaes.search.SearchScreen
 
@@ -21,6 +22,9 @@ fun Navigator(
         }
         composable(Screens.BottomNavScreens.Search.route){
             SearchScreen(navController = navController)
+        }
+        composable(Screens.ChatDetail.route){
+            ChatDetailScreen(navController = navController)
         }
     }
 }
