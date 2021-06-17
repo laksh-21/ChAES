@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
         setContent{
             val navController = rememberNavController()
-
+            AppScaffold(navController = navController)
         }
     }
 }
