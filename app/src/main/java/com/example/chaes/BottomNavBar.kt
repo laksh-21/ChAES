@@ -26,7 +26,7 @@ fun BottomNavBar(
                 onClick = {
                           navController.navigate(screen.route){
                               launchSingleTop = true
-                              navController.graph.startDestinationRoute?.let { popUpTo(it) }
+                              popUpTo(Screens.BottomNavScreens.Home.route)
                           }
                 },
                 label = { Text(text = screen.title) },
