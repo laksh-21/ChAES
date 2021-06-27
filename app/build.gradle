@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
-def compose_version = "1.0.0-beta08"
+def compose_version = "1.0.0-beta09"
 
 android {
     compileSdk 30
@@ -59,7 +59,7 @@ dependencies {
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     // Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:2.4.0-alpha02"
+    implementation "androidx.navigation:navigation-compose:2.4.0-alpha03"
 
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -73,9 +73,9 @@ dependencies {
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     // Integration with activities
-    implementation "androidx.activity:activity-compose:1.3.0-beta01"
+    implementation "androidx.activity:activity-compose:1.3.0-beta02"
     // Integration with ViewModels
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha06'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07'
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
