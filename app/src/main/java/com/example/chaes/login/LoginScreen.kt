@@ -48,7 +48,8 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
         InfoTextField(
             hintText = "PASSWORD",
-            leadingIcon = Icons.Outlined.Lock
+            leadingIcon = Icons.Outlined.Lock,
+            obfuscate = true
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
