@@ -25,14 +25,16 @@ fun InfoTextField(
     hintText: String = "Hint",
     leadingIcon: ImageVector,
     obfuscate: Boolean = false,
+    text: String,
+    onTextChanged: (String) -> Unit
 ){
     var hidden by remember{ mutableStateOf(true) }
     val trailingIcon = if(hidden) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = "",
+        value = text,
         label = { Text(text = hintText) },
-        onValueChange = {},
+        onValueChange = onTextChanged,
         leadingIcon = { Icon(imageVector = leadingIcon, contentDescription = hintText) },
         trailingIcon = {
                        if(obfuscate){
@@ -51,7 +53,7 @@ fun InfoTextField(
         ),
         maxLines = 1,
         singleLine = true,
-//        visualTransformation = if(obfuscate && hidden)PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = if(obfuscate && hidden)PasswordVisualTransformation() else VisualTransformation.None
     )
 }
 
@@ -60,6 +62,8 @@ fun InfoTextField(
 fun InfoTextFieldDemo(){
     InfoTextField(
         leadingIcon = Icons.Outlined.Email,
-        obfuscate = true
+        obfuscate = true,
+        text = "",
+        onTextChanged = {}
     )
 }

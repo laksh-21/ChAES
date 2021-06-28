@@ -12,4 +12,12 @@ class LoginViewModel: ViewModel(){
     fun onEmailTextChanged(text: String){
         _emailText.value = text
     }
+
+    // for the password editText
+    private val _passwordText = MutableLiveData("");
+    var passwordText: LiveData<String> = _passwordText
+
+    fun onPasswordTextChanged(text: String){
+        _passwordText.value = text
+    }
 }

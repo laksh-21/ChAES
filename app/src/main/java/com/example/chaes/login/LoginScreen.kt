@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -16,11 +18,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.chaes.login.components.InfoTextField
+import com.example.chaes.login.viewModel.LoginViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController?
+    navController: NavController?,
+    viewModel: LoginViewModel = viewModel()
 ){
+    val emailText: String by viewModel.emailText.observeAsState("")
+    val passwordText: String by viewModel.passwordText.observeAsState("")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,13 +50,17 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
         InfoTextField(
             hintText = "EMAIL",
-            leadingIcon = Icons.Outlined.Email
+            leadingIcon = Icons.Outlined.Email,
+            text = emailText,
+            onTextChanged = { viewModel.onEmailTextChanged(it) }
         )
         Spacer(modifier = Modifier.height(16.dp))
         InfoTextField(
             hintText = "PASSWORD",
             leadingIcon = Icons.Outlined.Lock,
-            obfuscate = true
+            obfuscate = true,
+            text = passwordText,
+            onTextChanged = { viewModel.onPasswordTextChanged(it) }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
@@ -72,7 +83,8 @@ fun LoginScreen(
         Row(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(bottom = 16.dp)
         ){
             Text(
