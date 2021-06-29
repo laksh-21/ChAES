@@ -3,6 +3,8 @@ package com.example.chaes.login.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
@@ -17,8 +19,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.*
 
 @Composable
 fun InfoTextField(
@@ -30,6 +32,8 @@ fun InfoTextField(
 ){
     var hidden by remember{ mutableStateOf(true) }
     val trailingIcon = if(hidden) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility
+    val keyboardType = if(obfuscate) KeyboardType.Password else KeyboardType.Email
+    val focusManager = LocalFocusManager.current
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = text,
@@ -53,7 +57,16 @@ fun InfoTextField(
         ),
         maxLines = 1,
         singleLine = true,
-        visualTransformation = if(obfuscate && hidden)PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = if(obfuscate && hidden)PasswordVisualTransformation() else VisualTransformation.None,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.None,
+            autoCorrect = false,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Done,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { focusManager.clearFocus() }
+        )
     )
 }
 
