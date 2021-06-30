@@ -12,7 +12,7 @@ import com.example.chaes.detail.ChatDetailScreen
 import com.example.chaes.home.HomeScreen
 import com.example.chaes.login.LoginScreen
 import com.example.chaes.search.SearchScreen
-import com.example.chaes.signup.SignUpScreen
+import com.example.chaes.login.SignUpScreen
 
 @Composable
 fun Navigator(

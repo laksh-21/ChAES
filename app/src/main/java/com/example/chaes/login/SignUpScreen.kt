@@ -1,4 +1,4 @@
-package com.example.chaes.signup
+package com.example.chaes.login
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
