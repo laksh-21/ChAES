@@ -28,11 +28,11 @@ fun InfoTextField(
     leadingIcon: ImageVector,
     obfuscate: Boolean = false,
     text: String,
-    onTextChanged: (String) -> Unit
+    onTextChanged: (String) -> Unit,
+    keyboardType: KeyboardType = KeyboardType.Text
 ){
     var hidden by remember{ mutableStateOf(true) }
     val trailingIcon = if(hidden) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility
-    val keyboardType = if(obfuscate) KeyboardType.Password else KeyboardType.Email
     val focusManager = LocalFocusManager.current
     TextField(
         modifier = Modifier.fillMaxWidth(),
@@ -59,7 +59,7 @@ fun InfoTextField(
         singleLine = true,
         visualTransformation = if(obfuscate && hidden)PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.None,
+            capitalization = if(keyboardType == KeyboardType.Text) KeyboardCapitalization.Words else KeyboardCapitalization.None,
             autoCorrect = false,
             keyboardType = keyboardType,
             imeAction = ImeAction.Done,
