@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import com.example.chaes.login.components.InfoTextField
 import com.example.chaes.login.viewModel.LoginViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chaes.Screens
+import com.example.chaes.login.components.HeaderSection
 
 @Composable
 fun LoginScreen(
@@ -34,7 +36,10 @@ fun LoginScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
-        HeaderSection()
+        HeaderSection(
+            mainText = "Login",
+            subText = "Please sign-in to continue."
+        )
         val emailText: String by viewModel.emailText.observeAsState("")
         val passwordText: String by viewModel.passwordText.observeAsState("")
         InputFieldSection(
@@ -49,7 +54,7 @@ fun LoginScreen(
 }
 
 @Composable
-fun LoginButtons() {
+private fun LoginButtons() {
     Button(
         onClick = {},
         shape = RoundedCornerShape(50),
@@ -70,25 +75,7 @@ fun LoginButtons() {
 }
 
 @Composable
-fun HeaderSection(){
-    Text(
-        text = "Login",
-        style = MaterialTheme.typography.h3,
-        modifier = Modifier.fillMaxWidth(.9f),
-        textAlign = TextAlign.Start
-    )
-    Spacer(modifier = Modifier.height(8.dp))
-    Text(
-        text = "Please sign-in to continue.",
-        style = MaterialTheme.typography.subtitle2,
-        modifier = Modifier.fillMaxWidth(.9f),
-        textAlign = TextAlign.Start
-    )
-    Spacer(modifier = Modifier.height(16.dp))
-}
-
-@Composable
-fun InputFieldSection(
+private fun InputFieldSection(
     emailText: String = "",
     passwordText: String = "",
     onEmailTextChanged: (String) -> Unit = {},
@@ -98,7 +85,8 @@ fun InputFieldSection(
         hintText = "EMAIL",
         leadingIcon = Icons.Outlined.Email,
         text = emailText,
-        onTextChanged = { onEmailTextChanged(it) }
+        onTextChanged = { onEmailTextChanged(it) },
+        keyboardType = KeyboardType.Email,
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
@@ -106,13 +94,14 @@ fun InputFieldSection(
         leadingIcon = Icons.Outlined.Lock,
         obfuscate = true,
         text = passwordText,
-        onTextChanged = { onPasswordTextChanged(it) }
+        onTextChanged = { onPasswordTextChanged(it) },
+        keyboardType = KeyboardType.Password,
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-fun SignupRow(
+private fun SignupRow(
     navController: NavController?
 ){
     Row(
@@ -144,14 +133,17 @@ fun SignupRow(
 
 @Preview
 @Composable
-fun ScreenDemo(){
+private fun ScreenDemo(){
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        HeaderSection()
+        HeaderSection(
+            mainText = "Login",
+            subText = "Please sign-in to continue."
+        )
         InputFieldSection()
         LoginButtons()
         SignupRow(navController = null)
