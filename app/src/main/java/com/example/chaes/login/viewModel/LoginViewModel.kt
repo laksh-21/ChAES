@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel: ViewModel(){
     // for the E-mail editText
-    private val _emailText = MutableLiveData("");
+    private val _emailText = MutableLiveData("")
     var emailText: LiveData<String> = _emailText
 
     fun onEmailTextChanged(text: String){
@@ -14,7 +14,7 @@ class LoginViewModel: ViewModel(){
     }
 
     // for the password editText
-    private val _passwordText = MutableLiveData("");
+    private val _passwordText = MutableLiveData("")
     var passwordText: LiveData<String> = _passwordText
 
     fun onPasswordTextChanged(text: String){

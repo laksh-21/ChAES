@@ -40,12 +40,12 @@ fun SignUpScreen(
         InfoFieldSection()
         Spacer(modifier = Modifier.height(16.dp))
         LoginButton()
-        LoginRow()
+        LoginRow(navController = navController)
     }
 }
 
 @Composable
-fun LoginRow(){
+fun LoginRow(navController: NavController?){
     Row(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
@@ -62,7 +62,11 @@ fun LoginRow(){
             text = "Login",
             style = MaterialTheme.typography.subtitle2,
             color = MaterialTheme.colors.primary,
-            modifier = Modifier.clickable(onClick = { })
+            modifier = Modifier.clickable(onClick = {
+                navController?.navigate(Screens.LoginFlowScreens.Login.route){
+                    popUpTo(Screens.LoginFlowScreens.SignUp.route)
+                }
+            })
         )
     }
 }
@@ -132,5 +136,4 @@ private fun InfoFieldSection(){
 @Composable
 fun SignupScreenDemo(){
     SignUpScreen(navController = null)
-    InfoFieldSection()
 }
