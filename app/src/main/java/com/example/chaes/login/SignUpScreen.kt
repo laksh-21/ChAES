@@ -12,20 +12,25 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.chaes.Screens
 import com.example.chaes.login.components.HeaderSection
 import com.example.chaes.login.components.InfoTextField
+import com.example.chaes.login.viewModel.SignUpViewModel
 
 @Composable
 fun SignUpScreen(
-    navController: NavController?
+    navController: NavController?,
+    viewModel: SignUpViewModel = viewModel()
 ){
     Column(
         modifier = Modifier
@@ -33,11 +38,27 @@ fun SignUpScreen(
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
+        val nameText: String by viewModel.nameText.observeAsState("")
+        val phoneText: String by viewModel.phoneText.observeAsState("")
+        val emailText: String by viewModel.emailText.observeAsState("")
+        val passwordText: String by viewModel.passwordText.observeAsState("")
+        val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
         HeaderSection(
             mainText = "Create Account",
             subText = "Please fill the inputs below."
         )
-        InfoFieldSection()
+        InfoFieldSection(
+            nameText = nameText,
+            phoneText = phoneText,
+            emailText = emailText,
+            passwordText = passwordText,
+            confirmPasswordText = confirmPasswordText,
+            onNameTextChanged = { viewModel.onNameTextChanged(it) },
+            onPhoneTextChanged = { viewModel.onPhoneTextChanged(it) },
+            onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
+            onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) },
+            onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
+        )
         Spacer(modifier = Modifier.height(16.dp))
         LoginButton()
         LoginRow(navController = navController)
@@ -87,36 +108,47 @@ fun LoginButton(){
 }
 
 @Composable
-private fun InfoFieldSection(){
+private fun InfoFieldSection(
+    nameText: String = "",
+    phoneText: String = "",
+    emailText: String = "",
+    passwordText: String = "",
+    confirmPasswordText: String = "",
+    onNameTextChanged: (String) -> Unit = {},
+    onPhoneTextChanged: (String) -> Unit = {},
+    onEmailTextChanged: (String) -> Unit = {},
+    onPasswordTextChanged: (String) -> Unit = {},
+    onConfirmPasswordTextChanged: (String) -> Unit = {},
+){
     InfoTextField(
         hintText = "Full Name",
         leadingIcon = Icons.Outlined.Person,
-        text = "",
-        onTextChanged = {},
+        text = nameText,
+        onTextChanged = { onNameTextChanged(it) },
         keyboardType = KeyboardType.Text
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
         hintText = "Phone",
         leadingIcon = Icons.Outlined.Phone,
-        text = "",
-        onTextChanged = {},
+        text = phoneText,
+        onTextChanged = { onPhoneTextChanged(it) },
         keyboardType = KeyboardType.Phone
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
         hintText = "Email",
         leadingIcon = Icons.Outlined.Email,
-        text = "",
-        onTextChanged = {},
+        text = emailText,
+        onTextChanged = { onEmailTextChanged(it) },
         keyboardType = KeyboardType.Email
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
         hintText = "Password",
         leadingIcon = Icons.Outlined.Lock,
-        text = "",
-        onTextChanged = {},
+        text = passwordText,
+        onTextChanged = { onPasswordTextChanged(it) },
         keyboardType = KeyboardType.Password,
         obfuscate = true
     )
@@ -124,8 +156,8 @@ private fun InfoFieldSection(){
     InfoTextField(
         hintText = "Confirm Password",
         leadingIcon = Icons.Outlined.Lock,
-        text = "",
-        onTextChanged = {},
+        text = confirmPasswordText,
+        onTextChanged = { onConfirmPasswordTextChanged(it) },
         keyboardType = KeyboardType.Password,
         obfuscate = true
     )
