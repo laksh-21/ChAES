@@ -66,7 +66,7 @@ fun SignUpScreen(
 }
 
 @Composable
-fun LoginRow(navController: NavController?){
+private fun LoginRow(navController: NavController?){
     Row(
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
@@ -85,7 +85,7 @@ fun LoginRow(navController: NavController?){
             color = MaterialTheme.colors.primary,
             modifier = Modifier.clickable(onClick = {
                 navController?.navigate(Screens.LoginFlowScreens.Login.route){
-                    popUpTo(Screens.LoginFlowScreens.SignUp.route)
+                    popUpTo(0)
                 }
             })
         )
@@ -93,7 +93,7 @@ fun LoginRow(navController: NavController?){
 }
 
 @Composable
-fun LoginButton(){
+private fun LoginButton(){
     Button(
         onClick = {},
         shape = RoundedCornerShape(50),
@@ -167,5 +167,18 @@ private fun InfoFieldSection(
 @Preview
 @Composable
 fun SignupScreenDemo(){
-    SignUpScreen(navController = null)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ){
+        HeaderSection(
+            mainText = "Signup",
+            subText = "Demo"
+        )
+        InfoFieldSection()
+        LoginButton()
+        LoginRow(navController = null)
+    }
 }

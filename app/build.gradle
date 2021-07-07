@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
 }
 
 def compose_version = "1.0.0-beta09"
@@ -33,7 +34,7 @@ android {
         jvmTarget = '1.8'
     }
     composeOptions {
-        kotlinCompilerVersion "1.5.10"
+        kotlinCompilerVersion "1.5.20"
         kotlinCompilerExtensionVersion compose_version
     }
     buildFeatures{
@@ -79,6 +80,11 @@ dependencies {
     // Integration with observables
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "androidx.compose.runtime:runtime-rxjava2:$compose_version"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
     // UI Tests
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 
