@@ -44,4 +44,6 @@ class SignUpViewModel: ViewModel() {
     fun onConfirmPasswordTextChanged(text: String){
         _confirmPasswordText.value = text
     }
+
+
 }

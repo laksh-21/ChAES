@@ -34,7 +34,7 @@ android {
         jvmTarget = '1.8'
     }
     composeOptions {
-        kotlinCompilerVersion "1.5.20"
+        kotlinCompilerVersion "1.5.10"
         kotlinCompilerExtensionVersion compose_version
     }
     buildFeatures{
@@ -65,7 +65,8 @@ dependencies {
     // Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     // Tooling support (Previews, etc.)
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+//    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:1.0.0-beta09"
     // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
     implementation "androidx.compose.foundation:foundation:$compose_version"
     // Material Design
@@ -84,6 +85,7 @@ dependencies {
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:28.2.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
     // UI Tests
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
