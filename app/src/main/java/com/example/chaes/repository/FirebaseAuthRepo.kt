@@ -8,8 +8,8 @@ import com.google.firebase.ktx.Firebase
 
 class FirebaseAuthRepo(app: Context) {
     private var auth : FirebaseAuth = Firebase.auth
-    private lateinit var userLoggedIn: MutableLiveData<Boolean>
-    private lateinit var context: Context
+    private var userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var context: Context
 
     init {
         userLoggedIn.value = auth.currentUser != null
