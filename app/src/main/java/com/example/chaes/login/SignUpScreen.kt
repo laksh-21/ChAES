@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.chaes.Screens
@@ -30,7 +31,7 @@ import com.example.chaes.login.viewModel.SignUpViewModel
 @Composable
 fun SignUpScreen(
     navController: NavController?,
-    viewModel: SignUpViewModel = viewModel()
+    viewModel: SignUpViewModel = hiltViewModel(),
 ){
     Column(
         modifier = Modifier

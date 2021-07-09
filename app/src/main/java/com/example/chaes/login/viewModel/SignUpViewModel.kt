@@ -1,16 +1,26 @@
 package com.example.chaes.login.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chaes.repository.FirebaseAuthRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class SignUpViewModel: ViewModel() {
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val randomString: String
+//    firebaseAuthRepo: FirebaseAuthRepo,
+) : ViewModel() {
     // full_name text
     private val _nameText = MutableLiveData("")
     var nameText: LiveData<String> = _nameText
 
     fun onNameTextChanged(text: String){
         _nameText.value = text
+        Log.d("AppDebug", randomString)
     }
 
     // phone_number text
@@ -44,6 +54,4 @@ class SignUpViewModel: ViewModel() {
     fun onConfirmPasswordTextChanged(text: String){
         _confirmPasswordText.value = text
     }
-
-
 }
