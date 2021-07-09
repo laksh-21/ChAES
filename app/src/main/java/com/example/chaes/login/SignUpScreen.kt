@@ -60,7 +60,7 @@ fun SignUpScreen(
             onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LoginButton()
+        SignupButton(onSignupClick = { viewModel.onClickSignup() })
         LoginRow(navController = navController)
     }
 }
@@ -93,9 +93,9 @@ private fun LoginRow(navController: NavController?){
 }
 
 @Composable
-private fun LoginButton(){
+private fun SignupButton(onSignupClick: () -> Unit = {}){
     Button(
-        onClick = {},
+        onClick = onSignupClick,
         shape = RoundedCornerShape(50),
         modifier = Modifier.fillMaxWidth(0.5f)
     ) {
@@ -178,7 +178,7 @@ fun SignupScreenDemo(){
             subText = "Demo"
         )
         InfoFieldSection()
-        LoginButton()
+        SignupButton()
         LoginRow(navController = null)
     }
 }

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    firebaseAuthRepo: FirebaseAuthRepo,
+    val firebaseAuthRepo: FirebaseAuthRepo,
 ) : ViewModel() {
     // full_name text
     private val _nameText = MutableLiveData("")
@@ -49,5 +49,9 @@ class SignUpViewModel @Inject constructor(
 
     fun onConfirmPasswordTextChanged(text: String){
         _confirmPasswordText.value = text
+    }
+
+    fun onClickSignup(){
+        firebaseAuthRepo.register(emailText.value, passwordText.value)
     }
 }
