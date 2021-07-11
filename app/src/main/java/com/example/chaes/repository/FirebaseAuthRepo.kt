@@ -17,8 +17,18 @@ class FirebaseAuthRepo(app: Context) {
         context = app
     }
 
-    fun login(email: String, password: String){
-
+    fun login(email: String?, password: String?){
+        if(email != null && password != null){
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener{ task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(context, "Sign-in successful", Toast.LENGTH_SHORT).show()
+                        userLoggedIn.value = true
+                    } else {
+                        Toast.makeText(context, "Could not sign-in", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
     }
 
     fun register(email: String?, password: String?){

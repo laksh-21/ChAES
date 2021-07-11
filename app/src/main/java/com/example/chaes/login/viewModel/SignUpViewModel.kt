@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    val firebaseAuthRepo: FirebaseAuthRepo,
+    private val firebaseAuthRepo: FirebaseAuthRepo,
 ) : ViewModel() {
     // full_name text
     private val _nameText = MutableLiveData("")

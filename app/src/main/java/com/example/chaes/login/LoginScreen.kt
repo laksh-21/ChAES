@@ -2,7 +2,9 @@ package com.example.chaes.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -18,22 +20,24 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chaes.login.components.InfoTextField
 import com.example.chaes.login.viewModel.LoginViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chaes.Screens
 import com.example.chaes.login.components.HeaderSection
 
 @Composable
 fun LoginScreen(
     navController: NavController?,
-    viewModel: LoginViewModel = viewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ){
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
         HeaderSection(
@@ -48,15 +52,17 @@ fun LoginScreen(
             onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
             onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) }
         )
-        LoginButtons()
+        LoginButtons(onClickLogin = { viewModel.onClickLogin() })
         SignupRow(navController = navController)
     }
 }
 
 @Composable
-private fun LoginButtons() {
+private fun LoginButtons(
+    onClickLogin: () -> Unit = {}
+) {
     Button(
-        onClick = {},
+        onClick = onClickLogin,
         shape = RoundedCornerShape(50),
         modifier = Modifier.fillMaxWidth(0.5f)
     ) {
@@ -72,6 +78,7 @@ private fun LoginButtons() {
         style = MaterialTheme.typography.subtitle2,
         color = MaterialTheme.colors.primary,
     )
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -105,7 +112,6 @@ private fun SignupRow(
     navController: NavController?
 ){
     Row(
-        verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()

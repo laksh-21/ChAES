@@ -2,7 +2,9 @@ package com.example.chaes.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -32,10 +34,12 @@ fun SignUpScreen(
     navController: NavController?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ){
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp)
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
         val nameText: String by viewModel.nameText.observeAsState("")
@@ -68,14 +72,13 @@ fun SignUpScreen(
 @Composable
 private fun LoginRow(navController: NavController?){
     Row(
-        verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 16.dp)
     ){
         Text(
-            text = "Already hve an account?",
+            text = "Already have an account?",
             style = MaterialTheme.typography.subtitle2,
         )
         Spacer(modifier = Modifier.width(4.dp))
@@ -105,6 +108,7 @@ private fun SignupButton(onSignupClick: () -> Unit = {}){
             textAlign = TextAlign.Center
         )
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable

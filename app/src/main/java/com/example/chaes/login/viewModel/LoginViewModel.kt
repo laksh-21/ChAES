@@ -3,8 +3,14 @@ package com.example.chaes.login.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chaes.repository.FirebaseAuthRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel: ViewModel(){
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val firebaseAuthRepo: FirebaseAuthRepo
+) : ViewModel(){
     // for the E-mail editText
     private val _emailText = MutableLiveData("")
     var emailText: LiveData<String> = _emailText
@@ -19,5 +25,9 @@ class LoginViewModel: ViewModel(){
 
     fun onPasswordTextChanged(text: String){
         _passwordText.value = text
+    }
+
+    fun onClickLogin(){
+        firebaseAuthRepo.login(emailText.value, passwordText.value)
     }
 }
