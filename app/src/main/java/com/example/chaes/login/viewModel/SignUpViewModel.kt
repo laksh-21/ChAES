@@ -25,11 +25,11 @@ class SignUpViewModel @Inject constructor(
     }
 
     // phone_number text
-    private val _phoneText = MutableLiveData("")
-    var phoneText: LiveData<String> = _phoneText
+    private val _userNameText = MutableLiveData("")
+    var userNameText: LiveData<String> = _userNameText
 
     fun onPhoneTextChanged(text: String){
-        _phoneText.value = text
+        _userNameText.value = text
     }
 
     // for email editText
@@ -78,7 +78,7 @@ class SignUpViewModel @Inject constructor(
     fun addUserToFirestore(uid: String){
         val user = User(
             name = nameText.value,
-            phone = phoneText.value,
+            userName = userNameText.value,
             email = emailText.value,
             uid = uid,
         )

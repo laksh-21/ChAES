@@ -9,10 +9,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -43,7 +40,7 @@ fun SignUpScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
         val nameText: String by viewModel.nameText.observeAsState("")
-        val phoneText: String by viewModel.phoneText.observeAsState("")
+        val phoneText: String by viewModel.userNameText.observeAsState("")
         val emailText: String by viewModel.emailText.observeAsState("")
         val passwordText: String by viewModel.passwordText.observeAsState("")
         val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
@@ -53,12 +50,12 @@ fun SignUpScreen(
         )
         InfoFieldSection(
             nameText = nameText,
-            phoneText = phoneText,
+            userNameText = phoneText,
             emailText = emailText,
             passwordText = passwordText,
             confirmPasswordText = confirmPasswordText,
             onNameTextChanged = { viewModel.onNameTextChanged(it) },
-            onPhoneTextChanged = { viewModel.onPhoneTextChanged(it) },
+            onUserNameTextChanged = { viewModel.onPhoneTextChanged(it) },
             onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
             onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) },
             onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
@@ -114,12 +111,12 @@ private fun SignupButton(onSignupClick: () -> Unit = {}){
 @Composable
 private fun InfoFieldSection(
     nameText: String = "",
-    phoneText: String = "",
+    userNameText: String = "",
     emailText: String = "",
     passwordText: String = "",
     confirmPasswordText: String = "",
     onNameTextChanged: (String) -> Unit = {},
-    onPhoneTextChanged: (String) -> Unit = {},
+    onUserNameTextChanged: (String) -> Unit = {},
     onEmailTextChanged: (String) -> Unit = {},
     onPasswordTextChanged: (String) -> Unit = {},
     onConfirmPasswordTextChanged: (String) -> Unit = {},
@@ -133,11 +130,11 @@ private fun InfoFieldSection(
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
-        hintText = "Phone",
-        leadingIcon = Icons.Outlined.Phone,
-        text = phoneText,
-        onTextChanged = { onPhoneTextChanged(it) },
-        keyboardType = KeyboardType.Phone
+        hintText = "User Name",
+        leadingIcon = Icons.Outlined.AccountCircle,
+        text = userNameText,
+        onTextChanged = { onUserNameTextChanged(it) },
+        keyboardType = KeyboardType.Text
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
