@@ -1,22 +1,27 @@
 package com.example.chaes.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.chaes.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
 class FirebaseAuthRepo(app: Context) {
     private var auth : FirebaseAuth = Firebase.auth
-    private var userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var db: FirebaseFirestore = Firebase.firestore
+    private var _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
     private var context: Context
     private var firebaseUser: FirebaseUser? = auth.currentUser
 
     init {
-        userLoggedIn.value = auth.currentUser != null
+        _userLoggedIn.value = auth.currentUser != null
         context = app
     }
 
@@ -26,7 +31,7 @@ class FirebaseAuthRepo(app: Context) {
                 .addOnCompleteListener{ task ->
                     if (task.isSuccessful) {
                         Timber.d("Sign-in Successful")
-                        userLoggedIn.value = true
+                        _userLoggedIn.value = true
                     } else {
                         Timber.d("Sign-in failed")
                     }
@@ -40,7 +45,7 @@ class FirebaseAuthRepo(app: Context) {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Timber.d("Sign-in Successful")
-                        userLoggedIn.value = true
+                        _userLoggedIn.value = true
                         addUserInfo(name)
                     } else {
                         Timber.d("Sign-in failed")
@@ -63,8 +68,13 @@ class FirebaseAuthRepo(app: Context) {
         }
     }
 
+    // TODO: Implement addUser to Firestore implementation
+    private fun addToFirestore(user: User){
+
+    }
+
     fun signOut(){
         auth.signOut()
-        userLoggedIn.value = false
+        _userLoggedIn.value = false
     }
 }
