@@ -3,14 +3,18 @@ package com.example.chaes.login.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.chaes.models.User
 import com.example.chaes.repository.FirebaseAuthRepo
+import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.SignInCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val firebaseAuthRepo: FirebaseAuthRepo,
+    private val firestoreRepo: FirestoreRepo,
 ) : ViewModel() {
     // full_name text
     private val _nameText = MutableLiveData("")
@@ -57,16 +61,27 @@ class SignUpViewModel @Inject constructor(
             // callback when user is logged in or it failed
             object : SignInCallback{
                 override fun onUserSignInSuccessful(uid: String) {
-                    TODO("Not yet implemented")
+                    Timber.d("Sign-in successful")
+                    addUserToFirestore(uid)
                 }
 
                 override fun onUserSignInFailed() {
-                    TODO("Not yet implemented")
+                    Timber.d("Sign-in failed")
                 }
             },
             emailText.value,
             passwordText.value,
             nameText.value,
         )
+    }
+
+    fun addUserToFirestore(uid: String){
+        val user: User = User(
+            name = nameText.value,
+            phone = phoneText.value,
+            email = emailText.value,
+            uid = uid,
+        )
+        firestoreRepo.addUser(user)
     }
 }
