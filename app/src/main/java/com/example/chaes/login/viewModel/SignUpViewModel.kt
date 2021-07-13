@@ -52,6 +52,10 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun onClickSignup(){
-        firebaseAuthRepo.register(emailText.value, passwordText.value)
+        firebaseAuthRepo.register(
+            emailText.value,
+            passwordText.value,
+            nameText.value,
+        )
     }
 }
