@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.chaes.models.User
+import com.example.chaes.repository.callbacks.SignInCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -39,7 +40,12 @@ class FirebaseAuthRepo(app: Context) {
         }
     }
 
-    fun register(email: String?, password: String?, name: String?){
+    fun register(
+        callback: SignInCallback,
+        email: String?,
+        password: String?,
+        name: String?
+    ){
         if (email != null && password != null) {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
@@ -47,8 +53,10 @@ class FirebaseAuthRepo(app: Context) {
                         Timber.d("Sign-in Successful")
                         _userLoggedIn.value = true
                         addUserInfo(name)
+                        firebaseUser?.let { callback.onUserSignInSuccessful(it.uid) }
                     } else {
                         Timber.d("Sign-in failed")
+                        callback.onUserSignInFailed()
                     }
                 }
         }
@@ -66,11 +74,6 @@ class FirebaseAuthRepo(app: Context) {
                 Timber.d("Profile Updated. Name: ${firebaseUser?.displayName}")
             }
         }
-    }
-
-    // TODO: Implement addUser to Firestore implementation
-    private fun addToFirestore(user: User){
-
     }
 
     fun signOut(){
