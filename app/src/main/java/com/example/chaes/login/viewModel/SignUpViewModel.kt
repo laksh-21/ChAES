@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val firebaseAuthRepo: FirebaseAuthRepo,
-    private val firestoreRepo: FirestoreRepo,
+    private val dbRepo: FirestoreRepo,
 ) : ViewModel() {
     // full_name text
     private val _nameText = MutableLiveData("")
@@ -76,12 +76,12 @@ class SignUpViewModel @Inject constructor(
     }
 
     fun addUserToFirestore(uid: String){
-        val user: User = User(
+        val user = User(
             name = nameText.value,
             phone = phoneText.value,
             email = emailText.value,
             uid = uid,
         )
-        firestoreRepo.addUser(user)
+        dbRepo.addUser(user)
     }
 }
