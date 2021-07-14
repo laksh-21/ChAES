@@ -5,10 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,38 +30,42 @@ fun SignUpScreen(
     navController: NavController?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ){
-    val scrollState = rememberScrollState()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp)
-            .verticalScroll(scrollState),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ){
-        val nameText: String by viewModel.nameText.observeAsState("")
-        val phoneText: String by viewModel.userNameText.observeAsState("")
-        val emailText: String by viewModel.emailText.observeAsState("")
-        val passwordText: String by viewModel.passwordText.observeAsState("")
-        val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
-        HeaderSection(
-            mainText = "Create Account",
-            subText = "Please fill the inputs below."
-        )
-        InfoFieldSection(
-            nameText = nameText,
-            userNameText = phoneText,
-            emailText = emailText,
-            passwordText = passwordText,
-            confirmPasswordText = confirmPasswordText,
-            onNameTextChanged = { viewModel.onNameTextChanged(it) },
-            onUserNameTextChanged = { viewModel.onPhoneTextChanged(it) },
-            onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
-            onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) },
-            onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        SignupButton(onSignupClick = { viewModel.onClickSignup() })
-        LoginRow(navController = navController)
+    Scaffold(
+        topBar = { TitleBar(navController = navController) }
+    ) {
+        val scrollState = rememberScrollState()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            val nameText: String by viewModel.nameText.observeAsState("")
+            val phoneText: String by viewModel.userNameText.observeAsState("")
+            val emailText: String by viewModel.emailText.observeAsState("")
+            val passwordText: String by viewModel.passwordText.observeAsState("")
+            val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
+            HeaderSection(
+                mainText = "Create Account",
+                subText = "Please fill the inputs below."
+            )
+            InfoFieldSection(
+                nameText = nameText,
+                userNameText = phoneText,
+                emailText = emailText,
+                passwordText = passwordText,
+                confirmPasswordText = confirmPasswordText,
+                onNameTextChanged = { viewModel.onNameTextChanged(it) },
+                onUserNameTextChanged = { viewModel.onPhoneTextChanged(it) },
+                onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
+                onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) },
+                onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            SignupButton(onSignupClick = { viewModel.onClickSignup() })
+            LoginRow(navController = navController)
+        }
     }
 }
 
@@ -163,6 +166,42 @@ private fun InfoFieldSection(
         obfuscate = true
     )
     Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+fun TitleBar(
+    navController: NavController? = null
+){
+    TopAppBar(
+        backgroundColor = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.onBackground,
+        elevation = 0.dp,
+    ) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.clickable(
+                    enabled = true,
+                    onClick = {
+                        navController?.navigate(Screens.LoginFlowScreens.Login.route) {
+                            popUpTo(0)
+                        }
+                    }
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun TitleBarDemo(){
+    TitleBar()
 }
 
 @Preview
