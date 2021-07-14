@@ -1,8 +1,8 @@
 package com.example.chaes
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screens(val route: String, val title: String){
@@ -12,7 +12,7 @@ sealed class Screens(val route: String, val title: String){
         val icon: ImageVector
     ): Screens(route, title){
         object Home: BottomNavScreens("homeScreen", "Home", Icons.Filled.Home)
-        object Search: BottomNavScreens("searchScreen", "Search", Icons.Filled.Search)
+        object Profile: BottomNavScreens("profileScreen", "Profile", Icons.Filled.AccountCircle)
     }
 
     object ChatDetail: Screens(route = "chatDetail", title = "Chat")
@@ -28,7 +28,7 @@ sealed class Screens(val route: String, val title: String){
 
 val bottomNavScreens = listOf(
     Screens.BottomNavScreens.Home,
-    Screens.BottomNavScreens.Search
+    Screens.BottomNavScreens.Profile
 )
 
 const val bottomNavScreensRoute: String = "homeScreensRoute"

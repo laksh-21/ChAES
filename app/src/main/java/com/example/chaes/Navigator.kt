@@ -44,7 +44,7 @@ fun Navigator(
             composable(Screens.BottomNavScreens.Home.route) {
                 HomeScreen(navController = navController)
             }
-            composable(Screens.BottomNavScreens.Search.route) {
+            composable(Screens.BottomNavScreens.Profile.route) {
                 SearchScreen(navController = navController)
             }
         }

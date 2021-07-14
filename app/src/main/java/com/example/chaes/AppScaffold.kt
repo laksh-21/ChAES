@@ -21,7 +21,7 @@ fun AppScaffold(
     Scaffold(
         bottomBar = {
             val visible = navBackStackEntry?.destination?.route == Screens.BottomNavScreens.Home.route ||
-                    navBackStackEntry?.destination?.route == Screens.BottomNavScreens.Search.route
+                    navBackStackEntry?.destination?.route == Screens.BottomNavScreens.Profile.route
             AnimatedVisibility(
                 visible = visible,
                 enter = slideInVertically() + expandVertically(expandFrom = Alignment.Bottom) + fadeIn(),
