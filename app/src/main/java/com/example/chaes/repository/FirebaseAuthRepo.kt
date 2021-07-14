@@ -1,28 +1,23 @@
 package com.example.chaes.repository
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.chaes.models.User
 import com.example.chaes.repository.callbacks.SignInCallback
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
 class FirebaseAuthRepo(app: Context) {
     private var auth : FirebaseAuth = Firebase.auth
-    private var db: FirebaseFirestore = Firebase.firestore
-    private var _userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
+    var userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
     private var context: Context
     private var firebaseUser: FirebaseUser? = auth.currentUser
 
     init {
-        _userLoggedIn.value = auth.currentUser != null
+        userLoggedIn.value = auth.currentUser != null
         context = app
     }
 
@@ -32,7 +27,7 @@ class FirebaseAuthRepo(app: Context) {
                 .addOnCompleteListener{ task ->
                     if (task.isSuccessful) {
                         Timber.d("Sign-in Successful")
-                        _userLoggedIn.value = true
+                        userLoggedIn.value = true
                     } else {
                         Timber.d("Sign-in failed")
                     }
@@ -51,7 +46,7 @@ class FirebaseAuthRepo(app: Context) {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Timber.d("Sign-in Successful")
-                        _userLoggedIn.value = true
+                        userLoggedIn.value = true
                         addUserInfo(name)
                         firebaseUser?.let { callback.onUserSignInSuccessful(it.uid) }
                     } else {
@@ -78,6 +73,6 @@ class FirebaseAuthRepo(app: Context) {
 
     fun signOut(){
         auth.signOut()
-        _userLoggedIn.value = false
+        userLoggedIn.value = false
     }
 }
