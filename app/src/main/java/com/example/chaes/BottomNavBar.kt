@@ -14,9 +14,7 @@ fun BottomNavBar(
     navController: NavController,
     screens: List<Screens.BottomNavScreens>
 ){
-    BottomNavigation(
-
-    ) {
+    BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
