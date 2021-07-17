@@ -12,20 +12,3 @@ import com.example.chaes.home.components.SearchSection
 fun HomeScreen(navController: NavController){
     SearchSection()
 }
-
-@Composable
-fun MessageFAB(){
-    FloatingActionButton(
-        onClick = {},
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary,
-    ){
-        Icon(imageVector = Icons.Filled.Add, contentDescription = "New Message")
-    }
-}
-
-@Preview
-@Composable
-fun MessageFABDemo(){
-    MessageFAB()
-}
