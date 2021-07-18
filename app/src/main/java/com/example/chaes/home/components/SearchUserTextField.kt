@@ -11,19 +11,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SearchUserTextField(){
+fun SearchUserTextField(
+    searchUserText: String,
+    onSearchUserTextChanged: (String) -> Unit,
+){
     Box(
         contentAlignment = Alignment.CenterEnd,
     ) {
+        val buttonSize = 50.dp
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
-            onValueChange = {},
+            value = searchUserText,
+            onValueChange = { onSearchUserTextChanged(it) },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
@@ -43,7 +46,7 @@ fun SearchUserTextField(){
         Button(
             onClick = {},
             shape = CircleShape,
-            modifier = Modifier.size(50.dp),
+            modifier = Modifier.size(buttonSize),
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowForwardIos,
@@ -51,10 +54,4 @@ fun SearchUserTextField(){
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun SearchUserTextFieldDemo(){
-    SearchUserTextField()
 }

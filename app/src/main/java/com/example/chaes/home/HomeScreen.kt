@@ -4,21 +4,35 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chaes.home.components.SearchUserTextField
+import com.example.chaes.home.viewModel.HomeScreenViewModel
 
 @Composable
-fun HomeScreen(navController: NavController){
-    SearchSection()
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeScreenViewModel = hiltViewModel(),
+){
+    val searchText: String by viewModel.searchUserText.observeAsState("")
+    SearchSection(
+        searchText = searchText,
+        onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
+    )
 }
 
 @Composable
-fun SearchSection(){
+fun SearchSection(
+    searchText: String,
+    onSearchUserTextChanged: (String) -> Unit,
+){
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,6 +47,9 @@ fun SearchSection(){
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(16.dp))
-        SearchUserTextField()
+        SearchUserTextField(
+            searchUserText = searchText,
+            onSearchUserTextChanged = { onSearchUserTextChanged(it) }
+        )
     }
 }
