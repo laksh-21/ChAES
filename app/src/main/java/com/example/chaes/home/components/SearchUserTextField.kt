@@ -35,7 +35,7 @@ fun SearchUserTextField(
             maxLines = 1,
             singleLine = true,
             shape = RoundedCornerShape(100),
-            placeholder = { Text(text = "hint here") },
+            placeholder = { Text(text = "Enter a username..") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Filled.Search,

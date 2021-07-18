@@ -19,7 +19,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MessagesHeader(){
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp),
         shape = RoundedCornerShape(
             topStartPercent = 50,
             topEndPercent = 50,
@@ -51,7 +53,7 @@ fun MessagesHeader(){
                     .background(
                     color = MaterialTheme.colors.onPrimary,
                     shape = CircleShape)
-                    .layout(){ measurable, constraints ->
+                    .layout{ measurable, constraints ->
                         val placeable = measurable.measure(constraints = constraints)
                         //get the current max dimension to assign width=height
                         val currentHeight = placeable.height

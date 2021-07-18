@@ -2,6 +2,7 @@ package com.example.chaes.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.chaes.home.components.MessagesHeader
 import com.example.chaes.home.components.SearchUserTextField
 import com.example.chaes.home.viewModel.HomeScreenViewModel
 
@@ -21,11 +23,22 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel(),
 ){
-    val searchText: String by viewModel.searchUserText.observeAsState("")
-    SearchSection(
-        searchText = searchText,
-        onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
-    )
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 8.dp)
+    ) {
+        item {
+            val searchText: String by viewModel.searchUserText.observeAsState("")
+            SearchSection(
+                searchText = searchText,
+                onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
+            )
+        }
+        item {
+            MessagesHeader()
+        }
+    }
 }
 
 @Composable
@@ -36,7 +49,7 @@ fun SearchSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 32.dp, vertical = 20.dp)
+            .padding(horizontal = 24.dp, vertical = 20.dp)
             .background(color = Color.Transparent),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
