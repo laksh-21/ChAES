@@ -17,4 +17,7 @@ class HomeScreenViewModel @Inject constructor(
     fun onSearchUserTextChanged(text: String){
         _searchUserText.value = text
     }
+
+    // conversations processing
+
 }
