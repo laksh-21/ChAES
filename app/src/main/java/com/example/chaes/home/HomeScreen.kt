@@ -10,10 +10,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.chaes.home.components.ConversationCard
 import com.example.chaes.home.components.MessagesHeader
 import com.example.chaes.home.components.SearchUserTextField
 import com.example.chaes.home.viewModel.HomeScreenViewModel
@@ -23,20 +25,28 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel(),
 ){
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 8.dp)
     ) {
-        item {
-            val searchText: String by viewModel.searchUserText.observeAsState("")
-            SearchSection(
-                searchText = searchText,
-                onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
-            )
-        }
-        item {
-            MessagesHeader()
+        val searchText: String by viewModel.searchUserText.observeAsState("")
+        SearchSection(
+            searchText = searchText,
+            onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
+        )
+        MessagesHeader()
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = MaterialTheme.colors.primary,
+                    shape = RectangleShape
+                )
+        ) {
+            item {
+                ConversationCard()
+            }
         }
     }
 }
