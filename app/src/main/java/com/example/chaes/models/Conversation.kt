@@ -8,5 +8,6 @@ data class Conversation(
     val isOpened: Boolean? = true,
     @ServerTimestamp
     val lastUpdated: Date? = null,
-    val uid: String? = "empty123"
+    val uid: String? = "empty123",
+    val lastMessage: String = "last message"
 )

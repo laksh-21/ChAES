@@ -33,11 +33,15 @@ class HomeScreenViewModel @Inject constructor(
     var conversations: LiveData<ArrayList<Conversation>> = _conversations
 
     fun onCompose(){
-        // TODO: register a listener
+        if(registration == null){
+            registration = query.addSnapshotListener(this)
+        }
     }
 
     fun onDecompose(){
-        // TODO: unregister the listener
+        registration?.remove()
+        registration = null
+        _conversations.value?.clear()
     }
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, error: FirebaseFirestoreException?) {
