@@ -1,11 +1,12 @@
 package com.example.chaes.repository
 
-import android.content.Context
 import com.example.chaes.models.User
 import com.example.chaes.utilities.Constants
-import com.google.android.gms.tasks.OnCompleteListener
+import com.example.chaes.utilities.Constants.conversationsCollectionName
+import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -23,5 +24,17 @@ class FirestoreRepo {
             addOnSuccessListener { Timber.d("User Added") }
             addOnCanceledListener { Timber.d("User add failed") }
         }
+    }
+
+    // conversations
+    private var conversationsQuery: CollectionReference? = null
+
+    fun getConversationQuery(): CollectionReference{
+        if(conversationsQuery == null){
+            conversationsQuery = db
+                .collection(conversationsCollectionName).document(auth.uid!!)
+                .collection(conversationsPeopleCollectionName)
+        }
+        return conversationsQuery as CollectionReference
     }
 }
