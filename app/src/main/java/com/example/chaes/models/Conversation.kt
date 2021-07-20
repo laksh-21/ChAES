@@ -4,7 +4,7 @@ import com.google.firebase.firestore.ServerTimestamp
 import java.util.*
 
 data class Conversation(
-    val userName: String? = "empty_user",
+    val name: String? = "empty_user",
     val isOpened: Boolean? = true,
     @ServerTimestamp
     val lastUpdated: Date? = null,

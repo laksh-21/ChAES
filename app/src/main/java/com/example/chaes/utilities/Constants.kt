@@ -7,4 +7,5 @@ object Constants{
     // conversations
     const val conversationsCollectionName = "conversations"
     const val conversationsPeopleCollectionName = "people"
+    const val lastUpdatedFieldName = "lastUpdated"
 }

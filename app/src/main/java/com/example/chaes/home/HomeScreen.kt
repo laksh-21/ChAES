@@ -3,6 +3,7 @@ package com.example.chaes.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,12 +20,15 @@ import com.example.chaes.home.components.ConversationCard
 import com.example.chaes.home.components.MessagesHeader
 import com.example.chaes.home.components.SearchUserTextField
 import com.example.chaes.home.viewModel.HomeScreenViewModel
+import com.example.chaes.models.Conversation
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel(),
 ){
+    val conversations: ArrayList<Conversation> by viewModel.conversations.observeAsState(ArrayList())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,18 +40,7 @@ fun HomeScreen(
             onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
         )
         MessagesHeader()
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = MaterialTheme.colors.primary,
-                    shape = RectangleShape
-                )
-        ) {
-            item {
-                ConversationCard()
-            }
-        }
+        ConversationsList(conversations = conversations)
     }
 }
 
@@ -74,5 +67,29 @@ fun SearchSection(
             searchUserText = searchText,
             onSearchUserTextChanged = { onSearchUserTextChanged(it) }
         )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun ConversationsList(
+    conversations: ArrayList<Conversation>,
+){
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = MaterialTheme.colors.primary,
+                shape = RectangleShape
+            )
+    ) {
+        item {
+            ConversationCard()
+        }
+        items(conversations){ conversation ->
+            ConversationCard(
+                // do something
+            )
+        }
     }
 }

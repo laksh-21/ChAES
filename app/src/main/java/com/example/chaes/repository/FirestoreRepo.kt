@@ -4,10 +4,12 @@ import com.example.chaes.models.User
 import com.example.chaes.utilities.Constants
 import com.example.chaes.utilities.Constants.conversationsCollectionName
 import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
+import com.example.chaes.utilities.Constants.lastUpdatedFieldName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
@@ -27,14 +29,14 @@ class FirestoreRepo {
     }
 
     // conversations
-    private var conversationsQuery: CollectionReference? = null
+    private var conversationsQuery: Query? = null
 
-    fun getConversationQuery(): CollectionReference{
+    fun getConversationQuery(): Query{
         if(conversationsQuery == null){
             conversationsQuery = db
                 .collection(conversationsCollectionName).document(auth.uid!!)
-                .collection(conversationsPeopleCollectionName)
+                .collection(conversationsPeopleCollectionName).orderBy(lastUpdatedFieldName, Query.Direction.DESCENDING)
         }
-        return conversationsQuery as CollectionReference
+        return conversationsQuery as Query
     }
 }
