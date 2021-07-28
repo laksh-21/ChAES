@@ -11,10 +11,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.chaes.models.Conversation
 
 @ExperimentalMaterialApi
 @Composable
-fun ConversationCard() {
+fun ConversationCard(
+    conversation: Conversation = Conversation()
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RectangleShape,
@@ -27,10 +30,14 @@ fun ConversationCard() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val faintColor = LocalContentColor.current.copy(alpha = 0.75f)
+
+            val brightColor = LocalContentColor.current
+            val faintColor = brightColor.copy(alpha = 0.75f)
+            val textColor = if(conversation.isOpened) faintColor else brightColor
+            val textWeight = if(conversation.isOpened) FontWeight.Normal else FontWeight.SemiBold
             Column {
                 Text(
-                    text = "Laksh Chauhan",
+                    text = conversation.name,
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
@@ -38,17 +45,19 @@ fun ConversationCard() {
                 )
                 Text(
                     modifier = Modifier.padding(top = 8.dp),
-                    text = "Hello!",
+                    text = conversation.lastMessage,
                     style = MaterialTheme.typography.body2,
-                    color = faintColor,
+                    color = textColor,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    fontWeight = textWeight,
                 )
             }
             Text(
                 text = "12:47",
                 style = MaterialTheme.typography.body2,
-                color = faintColor
+                color = textColor,
+                fontWeight = textWeight,
             )
         }
     }
@@ -58,5 +67,7 @@ fun ConversationCard() {
 @Preview
 @Composable
 fun ConversationCardDemo() {
-    ConversationCard()
+    ConversationCard(
+        conversation = Conversation()
+    )
 }

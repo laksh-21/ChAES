@@ -1,6 +1,7 @@
 package com.example.chaes
 
 import androidx.compose.animation.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
+@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun AppScaffold(

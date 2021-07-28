@@ -2,6 +2,7 @@ package com.example.chaes
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -14,6 +15,7 @@ import com.example.chaes.login.LoginScreen
 import com.example.chaes.search.SearchScreen
 import com.example.chaes.login.SignUpScreen
 
+@ExperimentalMaterialApi
 @Composable
 fun Navigator(
     navController: NavHostController,
