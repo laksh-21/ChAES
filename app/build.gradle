@@ -7,7 +7,7 @@ plugins {
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
-def compose_version = "1.0.0-rc02"
+def compose_version = "1.0.0"
 
 android {
     compileSdk 30
@@ -82,7 +82,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     // Integration with activities
-    implementation "androidx.activity:activity-compose:1.3.0-rc02"
+    implementation "androidx.activity:activity-compose:1.3.0"
     // Integration with ViewModels
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07'
     // Integration with observables
