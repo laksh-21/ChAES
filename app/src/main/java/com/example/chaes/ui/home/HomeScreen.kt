@@ -1,4 +1,4 @@
-package com.example.chaes.home
+package com.example.chaes.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,10 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.chaes.home.components.ConversationCard
-import com.example.chaes.home.components.MessagesHeader
-import com.example.chaes.home.components.SearchUserTextField
-import com.example.chaes.home.viewModel.HomeScreenViewModel
+import com.example.chaes.ui.home.components.ConversationCard
+import com.example.chaes.ui.home.components.MessagesHeader
+import com.example.chaes.ui.home.components.SearchUserTextField
+import com.example.chaes.ui.home.viewModel.HomeScreenViewModel
 import com.example.chaes.models.Conversation
 
 @ExperimentalMaterialApi
@@ -88,7 +88,7 @@ fun ConversationsList(
         }
         items(conversations){ conversation ->
             ConversationCard(
-                // do something
+                conversation = conversation
             )
         }
     }

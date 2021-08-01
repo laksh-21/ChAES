@@ -1,4 +1,4 @@
-package com.example.chaes.login.components
+package com.example.chaes.ui.login.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth

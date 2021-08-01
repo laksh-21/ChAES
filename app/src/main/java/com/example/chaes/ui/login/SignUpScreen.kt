@@ -1,4 +1,4 @@
-package com.example.chaes.login
+package com.example.chaes.ui.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,15 +22,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chaes.Screens
 import com.example.chaes.bottomNavScreensRoute
-import com.example.chaes.login.components.HeaderSection
-import com.example.chaes.login.components.InfoTextField
-import com.example.chaes.login.viewModel.SignUpViewModel
+import com.example.chaes.ui.login.components.HeaderSection
+import com.example.chaes.ui.login.components.InfoTextField
+import com.example.chaes.ui.login.viewModel.SignUpViewModel
 
 @Composable
 fun SignUpScreen(
     navController: NavController?,
     viewModel: SignUpViewModel = hiltViewModel(),
 ){
+    val userLoggedIn: Boolean by viewModel.userLoggedIn.observeAsState(false)
+    if(userLoggedIn){
+        navController?.navigate(bottomNavScreensRoute){
+            popUpTo(0)
+        }
+    }
     Scaffold(
         topBar = { TitleBar(navController = navController) }
     ) {
@@ -47,12 +53,6 @@ fun SignUpScreen(
             val emailText: String by viewModel.emailText.observeAsState("")
             val passwordText: String by viewModel.passwordText.observeAsState("")
             val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
-            val userLoggedIn: Boolean by viewModel.userLoggedIn.observeAsState(false)
-            if(userLoggedIn){
-                navController?.navigate(bottomNavScreensRoute){
-                    popUpTo(0)
-                }
-            }
             HeaderSection(
                 mainText = "Create Account",
                 subText = "Please fill the inputs below."

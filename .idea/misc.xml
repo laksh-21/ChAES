@@ -3,20 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/AndroidStudioProjects/ChAES/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/AndroidStudioProjects/ChAES/app/src/main/res/layout/fragment_splash_screen.xml" value="0.25416666666666665" />
+        <entry key="../../../../layout/compose-model-1627730602366.xml" value="0.29074074074074074" />
+        <entry key="../../../../layout/compose-model-1627823250610.xml" value="0.29074074074074074" />
+        <entry key="../../../../layout/compose-model-1627824066380.xml" value="0.19814814814814816" />
+        <entry key="../../../../layout/compose-model-1627824248441.xml" value="0.19814814814814816" />
+        <entry key="../../../../layout/compose-model-1627824369605.xml" value="0.29074074074074074" />
       </map>
     </option>
   </component>
-  <component name="EntryPointsManager">
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="dagger.hilt.android.HiltAndroidApp" />
-    </list>
-  </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

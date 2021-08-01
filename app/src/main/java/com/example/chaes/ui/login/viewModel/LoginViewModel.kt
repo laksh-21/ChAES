@@ -1,4 +1,4 @@
-package com.example.chaes.login.viewModel
+package com.example.chaes.ui.login.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +11,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val firebaseAuthRepo: FirebaseAuthRepo
 ) : ViewModel(){
+    var userLoggedIn: LiveData<Boolean> = firebaseAuthRepo.userLoggedIn
+
     // for the E-mail editText
     private val _emailText = MutableLiveData("")
     var emailText: LiveData<String> = _emailText

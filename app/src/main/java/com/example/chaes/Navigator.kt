@@ -9,11 +9,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.chaes.detail.ChatDetailScreen
-import com.example.chaes.home.HomeScreen
-import com.example.chaes.login.LoginScreen
-import com.example.chaes.search.SearchScreen
-import com.example.chaes.login.SignUpScreen
+import com.example.chaes.ui.detail.ChatDetailScreen
+import com.example.chaes.ui.home.HomeScreen
+import com.example.chaes.ui.login.LoginScreen
+import com.example.chaes.ui.login.SignUpScreen
 
 @ExperimentalMaterialApi
 @Composable
@@ -45,9 +44,6 @@ fun Navigator(
         ) {
             composable(Screens.BottomNavScreens.Home.route) {
                 HomeScreen(navController = navController)
-            }
-            composable(Screens.BottomNavScreens.Profile.route) {
-                SearchScreen(navController = navController)
             }
         }
         composable(Screens.ChatDetail.route) {

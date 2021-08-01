@@ -1,4 +1,4 @@
-package com.example.chaes.detail
+package com.example.chaes.ui.detail
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

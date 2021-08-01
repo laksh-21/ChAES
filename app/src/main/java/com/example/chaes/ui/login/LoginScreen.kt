@@ -1,4 +1,4 @@
-package com.example.chaes.login
+package com.example.chaes.ui.login
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,16 +22,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.chaes.login.components.InfoTextField
-import com.example.chaes.login.viewModel.LoginViewModel
+import com.example.chaes.ui.login.components.InfoTextField
+import com.example.chaes.ui.login.viewModel.LoginViewModel
 import com.example.chaes.Screens
-import com.example.chaes.login.components.HeaderSection
+import com.example.chaes.bottomNavScreensRoute
+import com.example.chaes.ui.login.components.HeaderSection
 
 @Composable
 fun LoginScreen(
     navController: NavController?,
     viewModel: LoginViewModel = hiltViewModel()
 ){
+    val userLoggedIn by viewModel.userLoggedIn.observeAsState(false)
+    if(userLoggedIn){
+        navController?.navigate(bottomNavScreensRoute){
+            popUpTo(0)
+        }
+    }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier

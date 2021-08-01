@@ -1,4 +1,4 @@
-package com.example.chaes.login.viewModel
+package com.example.chaes.ui.login.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

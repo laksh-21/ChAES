@@ -1,4 +1,4 @@
-package com.example.chaes.home.components
+package com.example.chaes.ui.home.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
