@@ -35,7 +35,9 @@ fun ConversationCard(
             val faintColor = brightColor.copy(alpha = 0.75f)
             val textColor = if(conversation.isOpened) faintColor else brightColor
             val textWeight = if(conversation.isOpened) FontWeight.Normal else FontWeight.SemiBold
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.8f)
+            ) {
                 Text(
                     text = conversation.name,
                     style = MaterialTheme.typography.body1,
