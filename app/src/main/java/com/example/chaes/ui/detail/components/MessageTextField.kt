@@ -2,6 +2,7 @@ package com.example.chaes.ui.detail.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +21,9 @@ import androidx.compose.ui.unit.dp
 fun MessageTextField(){
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         val buttonSize = 50.dp
         TextField(
