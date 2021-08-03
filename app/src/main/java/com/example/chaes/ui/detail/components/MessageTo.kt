@@ -22,7 +22,7 @@ fun MessageTo() {
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(0.75f)
+                .padding(start = 64.dp)
                 .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
             MessageSurface()
@@ -46,7 +46,7 @@ private fun TimeText() {
 @Composable
 private fun MessageSurface() {
     Surface(
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.primaryVariant,
         modifier = Modifier.padding(bottom = 4.dp),
         shape = RoundedCornerShape(
             topStartPercent = 25,
