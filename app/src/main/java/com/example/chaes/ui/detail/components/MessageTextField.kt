@@ -18,10 +18,12 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun MessageTextField(){
+fun MessageTextField(
+    modifier: Modifier = Modifier
+){
     Box(
         contentAlignment = Alignment.CenterEnd,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {

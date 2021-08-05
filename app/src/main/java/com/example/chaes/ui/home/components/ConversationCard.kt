@@ -16,14 +16,17 @@ import com.example.chaes.models.Conversation
 @ExperimentalMaterialApi
 @Composable
 fun ConversationCard(
-    conversation: Conversation = Conversation()
+    conversation: Conversation = Conversation(),
+    onConversationClick: () -> Unit = {}
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RectangleShape,
         color = Color.Transparent,
         contentColor = MaterialTheme.colors.onPrimary,
-        onClick = {}
+        onClick = {
+            onConversationClick()
+        }
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),

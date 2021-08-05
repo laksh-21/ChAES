@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.chaes.Screens
 import com.example.chaes.ui.home.components.ConversationCard
 import com.example.chaes.ui.home.components.MessagesHeader
 import com.example.chaes.ui.home.components.SearchUserTextField
@@ -40,7 +41,10 @@ fun HomeScreen(
             onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
         )
         MessagesHeader()
-        ConversationsList(conversations = conversations)
+        ConversationsList(
+            conversations = conversations,
+            navController = navController
+        )
     }
 }
 
@@ -74,6 +78,7 @@ fun SearchSection(
 @Composable
 fun ConversationsList(
     conversations: ArrayList<Conversation>,
+    navController: NavController,
 ){
     LazyColumn(
         modifier = Modifier
@@ -84,7 +89,7 @@ fun ConversationsList(
             )
     ) {
         item {
-            ConversationCard()
+            ConversationCard(onConversationClick = { navController.navigate(Screens.ChatDetail.route) })
         }
         items(conversations){ conversation ->
             ConversationCard(
