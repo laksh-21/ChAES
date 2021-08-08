@@ -8,4 +8,11 @@ object Constants{
     const val conversationsCollectionName = "conversations"
     const val conversationsPeopleCollectionName = "people"
     const val lastUpdatedFieldName = "lastUpdated"
+
+    // messages
+    const val messagesCollectionName = "user_messages"
+    const val messageTimeFieldName = "messageTime"
+
+    // Testing
+    const val dummyUID = "user_does_not_exist"
 }

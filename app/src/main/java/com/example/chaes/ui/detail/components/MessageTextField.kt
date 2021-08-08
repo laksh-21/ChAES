@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 @Preview
 @Composable
 fun MessageTextField(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClickSendButton: () -> Unit = {}
 ){
     Box(
         contentAlignment = Alignment.CenterEnd,
@@ -43,7 +44,7 @@ fun MessageTextField(
             placeholder = { Text(text = "Type your message..") },
         )
         Button(
-            onClick = {},
+            onClick = { onClickSendButton() },
             shape = CircleShape,
             modifier = Modifier.size(buttonSize),
         ) {

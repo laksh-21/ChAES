@@ -5,31 +5,48 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chaes.Screens
 import com.example.chaes.ui.detail.components.MessageTextField
 import com.example.chaes.ui.detail.components.MessagesList
+import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
 
 @Composable
 fun ChatDetailScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ChatDetailViewModel = hiltViewModel()
 ){
     Scaffold(
         topBar = {
             TitleBar(navController = navController)
         },
     ) { paddingValues ->
-        ChatColumn(paddingValues = paddingValues)
+        ChatColumn(
+            paddingValues = paddingValues,
+            onClickSendButton = { viewModel.addMessage() }
+        )
+    }
+
+    DisposableEffect(viewModel){
+        viewModel.onCompose()
+        onDispose {
+            viewModel.deCompose()
+        }
     }
 }
 
 @Preview
 @Composable
-fun ChatColumn(paddingValues: PaddingValues = PaddingValues(all = 0.dp)){
+fun ChatColumn(
+    paddingValues: PaddingValues = PaddingValues(all = 0.dp),
+    onClickSendButton: () -> Unit = {}
+){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
@@ -38,7 +55,9 @@ fun ChatColumn(paddingValues: PaddingValues = PaddingValues(all = 0.dp)){
             MessagesList(modifier = Modifier.fillMaxSize())
         }
         Row{
-            MessageTextField()
+            MessageTextField(
+                onClickSendButton = { onClickSendButton() }
+            )
         }
     }
 }

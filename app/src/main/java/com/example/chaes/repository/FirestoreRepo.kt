@@ -5,6 +5,8 @@ import com.example.chaes.utilities.Constants
 import com.example.chaes.utilities.Constants.conversationsCollectionName
 import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
 import com.example.chaes.utilities.Constants.lastUpdatedFieldName
+import com.example.chaes.utilities.Constants.messageTimeFieldName
+import com.example.chaes.utilities.Constants.messagesCollectionName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
@@ -38,5 +40,31 @@ class FirestoreRepo {
                 .collection(conversationsPeopleCollectionName).orderBy(lastUpdatedFieldName, Query.Direction.DESCENDING)
         }
         return conversationsQuery as Query
+    }
+
+    // messages
+    fun getLocalMessagesReference(uid: String): CollectionReference {
+
+        return db
+            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsPeopleCollectionName).document(uid)
+            .collection(messagesCollectionName)
+    }
+
+    fun getRemoteMessagesReference(uid: String): CollectionReference {
+
+        return db
+            .collection(conversationsCollectionName).document(uid)
+            .collection(conversationsPeopleCollectionName).document(auth.uid!!)
+            .collection(messagesCollectionName)
+    }
+
+    fun getMessagesQuery(uid: String): Query{
+
+        return db
+            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsPeopleCollectionName).document(uid)
+            .collection(messagesCollectionName)
+            .orderBy(messageTimeFieldName)
     }
 }
