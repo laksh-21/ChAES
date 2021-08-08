@@ -2,6 +2,7 @@ package com.example.chaes.di
 
 import android.app.Application
 import com.example.chaes.BuildConfig
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -11,6 +12,7 @@ class BaseApplication: Application() {
         super.onCreate()
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
+            FirebaseApp.initializeApp(this)
         }
     }
 }

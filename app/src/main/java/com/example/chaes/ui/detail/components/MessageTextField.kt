@@ -25,7 +25,7 @@ fun MessageTextField(
         contentAlignment = Alignment.CenterEnd,
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
     ) {
         val buttonSize = 50.dp
         TextField(

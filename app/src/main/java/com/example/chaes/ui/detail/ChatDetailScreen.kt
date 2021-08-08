@@ -37,7 +37,7 @@ fun ChatColumn(paddingValues: PaddingValues = PaddingValues(all = 0.dp)){
         Row(modifier = Modifier.weight(1f, true)){
             MessagesList(modifier = Modifier.fillMaxSize())
         }
-        Row(){
+        Row{
             MessageTextField()
         }
     }
