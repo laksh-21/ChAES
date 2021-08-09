@@ -17,6 +17,12 @@ class SignUpViewModel @Inject constructor(
     private val dbRepo: FirestoreRepo,
 ) : ViewModel() {
     var userLoggedIn: LiveData<Boolean> = firebaseAuthRepo.userLoggedIn
+    private val _userNavigated = MutableLiveData(false)
+    val userNavigated: LiveData<Boolean> = _userNavigated
+
+    fun onUserNavigated(){
+        _userNavigated.value = true
+    }
 
     // full_name text
     private val _nameText = MutableLiveData("")

@@ -18,23 +18,27 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.chaes.Screens
-import com.example.chaes.bottomNavScreensRoute
 import com.example.chaes.ui.login.components.HeaderSection
 import com.example.chaes.ui.login.components.InfoTextField
 import com.example.chaes.ui.login.viewModel.SignUpViewModel
+import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.loginScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.signupScreenRoute
 
 @Composable
 fun SignUpScreen(
     navController: NavController?,
-    viewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel,
 ){
-    val userLoggedIn: Boolean by viewModel.userLoggedIn.observeAsState(false)
-    if(userLoggedIn){
-        navController?.navigate(bottomNavScreensRoute){
-            popUpTo(0)
+    val userLoggedIn by viewModel.userLoggedIn.observeAsState(false)
+    val userNavigated by viewModel.userNavigated.observeAsState(false)
+    if(userLoggedIn && !userNavigated){
+        viewModel.onUserNavigated()
+        navController?.navigate(homeScreenRoute){
+            popUpTo(loginScreenRoute){
+                inclusive = true
+            }
         }
     }
     Scaffold(
@@ -94,8 +98,10 @@ private fun LoginRow(navController: NavController?){
             style = MaterialTheme.typography.subtitle2,
             color = MaterialTheme.colors.primary,
             modifier = Modifier.clickable(onClick = {
-                navController?.navigate(Screens.LoginFlowScreens.Login.route){
-                    popUpTo(0)
+                navController?.navigate(loginScreenRoute){
+                    popUpTo(signupScreenRoute){
+                        inclusive = true
+                    }
                 }
             })
         )
@@ -185,20 +191,16 @@ fun TitleBar(
         elevation = 0.dp,
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
-            Column(
-                modifier = Modifier.clickable(
-                    enabled = true,
-                    onClick = {
-                        navController?.navigate(Screens.LoginFlowScreens.Login.route) {
-                            popUpTo(0)
-                        }
+            IconButton(onClick = {
+                navController?.navigate(loginScreenRoute) {
+                    popUpTo(signupScreenRoute){
+                        inclusive = true
                     }
-                )
-            ) {
+                }
+            }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back",
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp)
                 )
             }
         }

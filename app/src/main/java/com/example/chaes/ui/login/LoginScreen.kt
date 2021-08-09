@@ -20,23 +20,27 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.chaes.ui.login.components.InfoTextField
 import com.example.chaes.ui.login.viewModel.LoginViewModel
-import com.example.chaes.Screens
-import com.example.chaes.bottomNavScreensRoute
 import com.example.chaes.ui.login.components.HeaderSection
+import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.loginScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.signupScreenRoute
 
 @Composable
 fun LoginScreen(
     navController: NavController?,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel,
 ){
     val userLoggedIn by viewModel.userLoggedIn.observeAsState(false)
-    if(userLoggedIn){
-        navController?.navigate(bottomNavScreensRoute){
-            popUpTo(0)
+    val userNavigated by viewModel.userNavigated.observeAsState(false)
+    if(userLoggedIn && !userNavigated){
+        viewModel.onUserNavigated()
+        navController?.navigate(homeScreenRoute){
+            popUpTo(loginScreenRoute){
+                inclusive = true
+            }
         }
     }
     val scrollState = rememberScrollState()
@@ -61,6 +65,17 @@ fun LoginScreen(
         )
         LoginButtons(onClickLogin = { viewModel.onClickLogin() })
         SignupRow(navController = navController)
+        Button(
+            onClick = {
+                navController?.navigate(homeScreenRoute){
+                    popUpTo(loginScreenRoute){
+                        inclusive = true
+                    }
+                }
+            }
+        ){
+            Text(text = "Click me!")
+        }
     }
 }
 
@@ -135,8 +150,8 @@ private fun SignupRow(
             color = MaterialTheme.colors.primary,
             modifier = Modifier.clickable(
                 onClick = {
-                    navController?.navigate(Screens.LoginFlowScreens.SignUp.route){
-                        popUpTo(Screens.LoginFlowScreens.Login.route)
+                    navController?.navigate(signupScreenRoute){
+                        popUpTo(loginScreenRoute)
                     }
                 }
             )

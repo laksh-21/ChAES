@@ -12,15 +12,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.chaes.Screens
 import com.example.chaes.ui.detail.components.MessageTextField
 import com.example.chaes.ui.detail.components.MessagesList
 import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
+import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
 
 @Composable
 fun ChatDetailScreen(
     navController: NavController,
-    viewModel: ChatDetailViewModel = hiltViewModel()
+    viewModel: ChatDetailViewModel,
 ){
     Scaffold(
         topBar = {
@@ -77,7 +77,7 @@ fun TitleBar(
         navigationIcon = {
             IconButton(onClick = {
                 navController.popBackStack(
-                    Screens.ChatDetail.route,
+                    chatDetailScreenRoute,
                     inclusive = true
                 )
             }) {

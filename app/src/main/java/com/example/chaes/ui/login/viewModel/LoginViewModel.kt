@@ -12,6 +12,12 @@ class LoginViewModel @Inject constructor(
     private val firebaseAuthRepo: FirebaseAuthRepo
 ) : ViewModel(){
     var userLoggedIn: LiveData<Boolean> = firebaseAuthRepo.userLoggedIn
+    private val _userNavigated = MutableLiveData(false)
+    val userNavigated: LiveData<Boolean> = _userNavigated
+
+    fun onUserNavigated(){
+        _userNavigated.value = true
+    }
 
     // for the E-mail editText
     private val _emailText = MutableLiveData("")

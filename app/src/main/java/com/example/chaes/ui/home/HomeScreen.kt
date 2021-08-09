@@ -14,20 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.chaes.Screens
 import com.example.chaes.ui.home.components.ConversationCard
 import com.example.chaes.ui.home.components.MessagesHeader
 import com.example.chaes.ui.home.components.SearchUserTextField
 import com.example.chaes.ui.home.viewModel.HomeScreenViewModel
 import com.example.chaes.models.Conversation
+import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
 
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeScreenViewModel = hiltViewModel(),
+    viewModel: HomeScreenViewModel,
 ){
     val conversations: ArrayList<Conversation> by viewModel.conversations.observeAsState(ArrayList())
     Column(
@@ -89,7 +88,7 @@ fun ConversationsList(
             )
     ) {
         item {
-            ConversationCard(onConversationClick = { navController.navigate(Screens.ChatDetail.route) })
+            ConversationCard(onConversationClick = { navController.navigate(chatDetailScreenRoute) })
         }
         items(conversations){ conversation ->
             ConversationCard(
