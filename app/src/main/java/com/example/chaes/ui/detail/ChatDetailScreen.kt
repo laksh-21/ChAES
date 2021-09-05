@@ -23,14 +23,13 @@ fun ChatDetailScreen(
     navController: NavController,
     viewModel: ChatDetailViewModel,
 ){
-//    val messages: ArrayList<Message> by viewModel.messages.observeAsState(ArrayList())
-    val messages = viewModel.messages.value
-    Timber.i(messages.toString())
     Scaffold(
         topBar = {
             TitleBar(navController = navController)
         },
     ) { paddingValues ->
+        val messages = viewModel.messages.value
+        Timber.i("We are recomposing: %d", messages.size)
         ChatColumn(
             paddingValues = paddingValues,
             onClickSendButton = { viewModel.addMessage() },
@@ -50,7 +49,7 @@ fun ChatDetailScreen(
 fun ChatColumn(
     paddingValues: PaddingValues = PaddingValues(all = 0.dp),
     onClickSendButton: () -> Unit = {},
-    messages: ArrayList<Message>
+    messages: List<Message>
 ){
     Column(
         modifier = Modifier.fillMaxSize(),

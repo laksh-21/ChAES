@@ -21,7 +21,7 @@ class ChatDetailViewModel @Inject constructor(
     private lateinit var query: Query
     private var registration: ListenerRegistration? = null
 
-    val messages = mutableStateOf(ArrayList<Message>())
+    val messages = mutableStateOf(listOf<Message>())
 //    val messages: LiveData<ArrayList<Message>> = _messages
 
 
@@ -37,7 +37,8 @@ class ChatDetailViewModel @Inject constructor(
         Timber.i("Messages are not listened to")
         registration?.remove()
         registration = null
-        messages.value.clear()
+//        messages.value.clear()
+        messages.value = emptyList()
     }
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -60,25 +61,33 @@ class ChatDetailViewModel @Inject constructor(
     }
 
     private fun onRemoved(change: DocumentChange) {
-        messages.value.removeAt(change.oldIndex)
+        val mutableMessageList = messages.value.toMutableList()
+        mutableMessageList.removeAt(change.oldIndex)
+        messages.value = mutableMessageList.toList()
+//        messages.value.removeAt(change.oldIndex)
     }
 
     private fun onModified(change: DocumentChange) {
         val message: Message = change.document.toObject()
-
+        val mutableMessageList = messages.value.toMutableList()
         if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            messages.value[change.oldIndex] = message
+            mutableMessageList[change.oldIndex] = message
         } else {
             // Item changed and changed position
-            messages.value.removeAt(change.oldIndex)
-            messages.value.add(change.newIndex, message)
+            mutableMessageList.removeAt(change.oldIndex)
+            mutableMessageList.add(change.newIndex, message)
         }
+        messages.value = mutableMessageList.toList()
     }
 
     private fun onAdded(change: DocumentChange) {
         val message: Message = change.document.toObject()
-        messages.value.add(change.newIndex, message)
+        val mutableMessageList = messages.value.toMutableList()
+        Timber.i(message.toString())
+        mutableMessageList.add(change.newIndex, message)
+        messages.value = mutableMessageList.toList()
+        Timber.i("Message has been added: New Length is %d", messages.value.size)
     }
     // listener code end
 

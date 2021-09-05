@@ -11,7 +11,7 @@ import timber.log.Timber
 @Composable
 fun MessagesList(
     modifier: Modifier = Modifier,
-    messages: ArrayList<Message>
+    messages: List<Message>
 ){
     LazyColumn(
         reverseLayout = true,
