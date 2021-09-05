@@ -8,20 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.chaes.models.Message
 import com.example.chaes.ui.detail.components.MessageTextField
 import com.example.chaes.ui.detail.components.MessagesList
 import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
+import com.example.chaes.utilities.Constants.dummyUID
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
+import timber.log.Timber
 
 @Composable
 fun ChatDetailScreen(
     navController: NavController,
     viewModel: ChatDetailViewModel,
 ){
+//    val messages: ArrayList<Message> by viewModel.messages.observeAsState(ArrayList())
+    val messages = viewModel.messages.value
+    Timber.i(messages.toString())
     Scaffold(
         topBar = {
             TitleBar(navController = navController)
@@ -29,30 +33,34 @@ fun ChatDetailScreen(
     ) { paddingValues ->
         ChatColumn(
             paddingValues = paddingValues,
-            onClickSendButton = { viewModel.addMessage() }
+            onClickSendButton = { viewModel.addMessage() },
+            messages = messages
         )
     }
 
     DisposableEffect(viewModel){
-        viewModel.onCompose()
+        viewModel.attachListener(dummyUID)
         onDispose {
-            viewModel.deCompose()
+            viewModel.detachListener()
         }
     }
 }
 
-@Preview
 @Composable
 fun ChatColumn(
     paddingValues: PaddingValues = PaddingValues(all = 0.dp),
-    onClickSendButton: () -> Unit = {}
+    onClickSendButton: () -> Unit = {},
+    messages: ArrayList<Message>
 ){
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Bottom
     ) {
         Row(modifier = Modifier.weight(1f, true)){
-            MessagesList(modifier = Modifier.fillMaxSize())
+            MessagesList(
+                    modifier = Modifier.fillMaxSize(),
+                    messages = messages
+            )
         }
         Row{
             MessageTextField(

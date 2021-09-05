@@ -1,9 +1,7 @@
 package com.example.chaes.ui.detail.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.utilities.Constants.dummyUID
@@ -15,30 +13,31 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatDetailViewModel @Inject constructor(
-    dbRepo: FirestoreRepo,
+    private val dbRepo: FirestoreRepo,
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
-
     // Listener code start
-    private val query: Query = dbRepo.getMessagesQuery(dummyUID)
+    private lateinit var query: Query
     private var registration: ListenerRegistration? = null
 
-    private val _messages = MutableLiveData(ArrayList<Message>())
-    val messages: LiveData<ArrayList<Message>> = _messages
+    val messages = mutableStateOf(ArrayList<Message>())
+//    val messages: LiveData<ArrayList<Message>> = _messages
 
-    fun onCompose(){
+
+    fun attachListener(uid: String){
+        query = dbRepo.getMessagesQuery(uid)
         Timber.i("Messages are listened to")
         if(registration == null){
             registration = query.addSnapshotListener(this)
         }
     }
 
-    fun deCompose(){
+    fun detachListener(){
         Timber.i("Messages are not listened to")
         registration?.remove()
         registration = null
-        _messages.value?.clear()
+        messages.value.clear()
     }
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -61,7 +60,7 @@ class ChatDetailViewModel @Inject constructor(
     }
 
     private fun onRemoved(change: DocumentChange) {
-        _messages.value?.removeAt(change.oldIndex)
+        messages.value.removeAt(change.oldIndex)
     }
 
     private fun onModified(change: DocumentChange) {
@@ -69,17 +68,17 @@ class ChatDetailViewModel @Inject constructor(
 
         if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            _messages.value?.set(change.oldIndex, message)
+            messages.value[change.oldIndex] = message
         } else {
             // Item changed and changed position
-            _messages.value?.removeAt(change.oldIndex)
-            _messages.value?.add(change.newIndex, message)
+            messages.value.removeAt(change.oldIndex)
+            messages.value.add(change.newIndex, message)
         }
     }
 
     private fun onAdded(change: DocumentChange) {
         val message: Message = change.document.toObject()
-        _messages.value?.add(change.newIndex, message)
+        messages.value.add(change.newIndex, message)
     }
     // listener code end
 
@@ -91,4 +90,5 @@ class ChatDetailViewModel @Inject constructor(
         localReference.add(Message())
         remoteReference.add(Message())
     }
+    // writer code end
 }

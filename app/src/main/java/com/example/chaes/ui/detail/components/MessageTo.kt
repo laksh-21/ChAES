@@ -6,26 +6,31 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.chaes.models.Message
 
 @Preview
 @Composable
-fun MessageTo() {
+fun MessageTo(
+    message: Message = Message()
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.End,
     ) {
         Column(
             modifier = Modifier
                 .padding(start = 64.dp)
-                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .padding(horizontal = 16.dp, vertical = 4.dp),
+            horizontalAlignment = Alignment.End
         ) {
-            MessageSurface()
+            MessageSurface(message = message)
             TimeText()
         }
     }
@@ -44,7 +49,9 @@ private fun TimeText() {
 }
 
 @Composable
-private fun MessageSurface() {
+private fun MessageSurface(
+    message: Message
+) {
     Surface(
         color = MaterialTheme.colors.primaryVariant,
         modifier = Modifier.padding(bottom = 4.dp),
@@ -64,12 +71,12 @@ private fun MessageSurface() {
             )
         ) {
             Text(
-                text = "You",
+                text = message.senderName,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = "Message is this one where I shall get to know if it works properly or not",
+                text = message.content,
                 style = MaterialTheme.typography.body2
             )
         }

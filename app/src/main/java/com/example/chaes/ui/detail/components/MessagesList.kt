@@ -1,14 +1,17 @@
 package com.example.chaes.ui.detail.components
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.chaes.models.Message
+import com.example.chaes.utilities.Constants
+import timber.log.Timber
 
 @Composable
-@Preview
 fun MessagesList(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    messages: ArrayList<Message>
 ){
     LazyColumn(
         reverseLayout = true,
@@ -23,24 +26,13 @@ fun MessagesList(
         item{
             MessageTo()
         }
-        item {
-            MessageFrom()
+        Timber.i("%s", (messages.size))
+        items(messages){ message ->
+            if(message.senderName == Constants.fromUserMessageName){
+                MessageTo(message = message)
+            } else{
+                MessageFrom(message = message)
+            }
         }
-        item{
-            MessageTo()
-        }
-        item {
-            MessageFrom()
-        }
-        item {
-            MessageFrom()
-        }
-        item {
-            MessageFrom()
-        }
-        item {
-            MessageFrom()
-        }
-
     }
 }

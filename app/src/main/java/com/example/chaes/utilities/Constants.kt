@@ -12,6 +12,7 @@ object Constants{
     // messages
     const val messagesCollectionName = "user_messages"
     const val messageTimeFieldName = "messageTime"
+    const val fromUserMessageName = "You"
 
     // Testing
     const val dummyUID = "user_does_not_exist"

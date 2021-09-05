@@ -12,10 +12,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.chaes.models.Message
 
 @Preview
 @Composable
-fun MessageFrom(){
+fun MessageFrom(
+    message: Message = Message()
+){
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Start
@@ -25,14 +28,16 @@ fun MessageFrom(){
                 .padding(end = 64.dp)
                 .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
-            MessageSurface()
+            MessageSurface(message = message)
             TimeText()
         }
     }
 }
 
 @Composable
-private fun MessageSurface() {
+private fun MessageSurface(
+    message: Message
+) {
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(bottom = 4.dp),
@@ -52,12 +57,12 @@ private fun MessageSurface() {
             )
         ) {
             Text(
-                text = "You",
+                text = message.senderName,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.body1
             )
             Text(
-                text = "Message this works so well! Why didn't I think of this before!",
+                text = message.content,
                 style = MaterialTheme.typography.body2
             )
         }
