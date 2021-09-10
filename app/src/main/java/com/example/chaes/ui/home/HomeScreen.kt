@@ -28,7 +28,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel,
 ){
-    val conversations: ArrayList<Conversation> by viewModel.conversations.observeAsState(ArrayList())
+    val conversations = viewModel.conversations.value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +76,7 @@ fun SearchSection(
 @ExperimentalMaterialApi
 @Composable
 fun ConversationsList(
-    conversations: ArrayList<Conversation>,
+    conversations: List<Conversation>,
     navController: NavController,
 ){
     LazyColumn(
@@ -95,5 +95,6 @@ fun ConversationsList(
                 conversation = conversation
             )
         }
+//        TODO("Add UID to arguments for navigation in ConversationCard")
     }
 }

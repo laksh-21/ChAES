@@ -1,5 +1,6 @@
 package com.example.chaes.ui.home.viewModel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,19 +30,19 @@ class HomeScreenViewModel @Inject constructor(
     private val query = dbRepo.getConversationQuery()
     private var registration: ListenerRegistration? = null
 
-    private val _conversations = MutableLiveData(ArrayList<Conversation>())
-    var conversations: LiveData<ArrayList<Conversation>> = _conversations
+    val conversations = mutableStateOf(listOf<Conversation>())
+//    var conversations: LiveData<ArrayList<Conversation>> = _conversations
 
-    fun onCompose(){
+    fun attachListener(){
         if(registration == null){
             registration = query.addSnapshotListener(this)
         }
     }
 
-    fun onDecompose(){
+    fun detachListener(){
         registration?.remove()
         registration = null
-        _conversations.value?.clear()
+        conversations.value = emptyList()
     }
 
     override fun onEvent(documentSnapshots: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -64,21 +65,27 @@ class HomeScreenViewModel @Inject constructor(
     }
 
     private fun onAdded(change: DocumentChange){
+        val mutableConversationList = conversations.value.toMutableList()
         val conversation: Conversation = change.document.toObject()
-        _conversations.value?.add(change.newIndex, conversation)
+        mutableConversationList.add(change.newIndex, conversation)
+        conversations.value = mutableConversationList.toList()
     }
     private fun onModified(change: DocumentChange){
         val conversation: Conversation = change.document.toObject()
+        val mutableConversationList = conversations.value.toMutableList()
         if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            _conversations.value?.set(change.oldIndex, conversation)
+            mutableConversationList[change.oldIndex] = conversation
         } else {
             // Item changed and changed position
-            _conversations.value?.removeAt(change.oldIndex)
-            _conversations.value?.add(change.newIndex, conversation)
+            mutableConversationList.removeAt(change.oldIndex)
+            mutableConversationList.add(change.newIndex, conversation)
         }
+        conversations.value = mutableConversationList.toList()
     }
     private fun onRemoved(change: DocumentChange){
-        _conversations.value?.removeAt(change.oldIndex)
+        val mutableConversationList = conversations.value.toMutableList()
+        mutableConversationList.removeAt(change.oldIndex)
+        conversations.value = mutableConversationList.toList()
     }
 }
