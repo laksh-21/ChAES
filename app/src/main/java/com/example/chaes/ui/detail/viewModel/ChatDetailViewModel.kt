@@ -17,15 +17,19 @@ class ChatDetailViewModel @Inject constructor(
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
+    val messageText = mutableStateOf("")
+
+    fun onMessageTextChanged(text: String){
+        messageText.value = text
+    }
+
     // Listener code start
     private lateinit var query: Query
     private var registration: ListenerRegistration? = null
 
     val messages = mutableStateOf(listOf<Message>())
-//    val messages: LiveData<ArrayList<Message>> = _messages
 
-
-    fun attachListener(uid: String){
+    fun attachListener(uid: String?){
         query = dbRepo.getMessagesQuery(uid)
         Timber.i("Messages are listened to")
         if(registration == null){
@@ -37,7 +41,6 @@ class ChatDetailViewModel @Inject constructor(
         Timber.i("Messages are not listened to")
         registration?.remove()
         registration = null
-//        messages.value.clear()
         messages.value = emptyList()
     }
 
@@ -64,7 +67,6 @@ class ChatDetailViewModel @Inject constructor(
         val mutableMessageList = messages.value.toMutableList()
         mutableMessageList.removeAt(change.oldIndex)
         messages.value = mutableMessageList.toList()
-//        messages.value.removeAt(change.oldIndex)
     }
 
     private fun onModified(change: DocumentChange) {
@@ -84,7 +86,6 @@ class ChatDetailViewModel @Inject constructor(
     private fun onAdded(change: DocumentChange) {
         val message: Message = change.document.toObject()
         val mutableMessageList = messages.value.toMutableList()
-        Timber.i(message.toString())
         mutableMessageList.add(change.newIndex, message)
         messages.value = mutableMessageList.toList()
         Timber.i("Message has been added: New Length is %d", messages.value.size)

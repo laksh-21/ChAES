@@ -16,10 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
 @Composable
 fun MessageTextField(
     modifier: Modifier = Modifier,
+    messageText: String,
+    onMessageTextChanged: (String) -> Unit,
     onClickSendButton: () -> Unit = {}
 ){
     Box(
@@ -31,8 +32,8 @@ fun MessageTextField(
         val buttonSize = 50.dp
         TextField(
             modifier = Modifier.fillMaxWidth(),
-            value = "",
-            onValueChange = {  },
+            value = messageText,
+            onValueChange = { onMessageTextChanged(it) },
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,

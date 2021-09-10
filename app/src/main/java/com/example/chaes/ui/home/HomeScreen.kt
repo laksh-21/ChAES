@@ -20,6 +20,7 @@ import com.example.chaes.ui.home.components.MessagesHeader
 import com.example.chaes.ui.home.components.SearchUserTextField
 import com.example.chaes.ui.home.viewModel.HomeScreenViewModel
 import com.example.chaes.models.Conversation
+import com.example.chaes.utilities.Constants.dummyUID
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
 
 @ExperimentalMaterialApi
@@ -88,13 +89,15 @@ fun ConversationsList(
             )
     ) {
         item {
-            ConversationCard(onConversationClick = { navController.navigate(chatDetailScreenRoute) })
+            ConversationCard(
+                onConversationClick = { navController.navigate("$chatDetailScreenRoute/$dummyUID") }
+            )
         }
         items(conversations){ conversation ->
             ConversationCard(
-                conversation = conversation
+                conversation = conversation,
+                onConversationClick = { navController.navigate("$chatDetailScreenRoute/${conversation.uid}") }
             )
         }
-//        TODO("Add UID to arguments for navigation in ConversationCard")
     }
 }

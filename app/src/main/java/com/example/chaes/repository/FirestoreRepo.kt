@@ -59,11 +59,11 @@ class FirestoreRepo {
             .collection(messagesCollectionName)
     }
 
-    fun getMessagesQuery(uid: String): Query{
+    fun getMessagesQuery(uid: String?): Query{
 
         return db
             .collection(conversationsCollectionName).document(auth.uid!!)
-            .collection(conversationsPeopleCollectionName).document(uid)
+            .collection(conversationsPeopleCollectionName).document(uid!!)
             .collection(messagesCollectionName)
             .orderBy(messageTimeFieldName)
     }

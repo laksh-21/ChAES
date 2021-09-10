@@ -22,7 +22,9 @@ import timber.log.Timber
 fun ChatDetailScreen(
     navController: NavController,
     viewModel: ChatDetailViewModel,
+    toUid: String?
 ){
+    Timber.d(toUid)
     Scaffold(
         topBar = {
             TitleBar(navController = navController)
@@ -30,15 +32,18 @@ fun ChatDetailScreen(
     ) { paddingValues ->
         val messages = viewModel.messages.value
         Timber.i("We are recomposing: %d", messages.size)
+        val messageText: String = viewModel.messageText.value
         ChatColumn(
             paddingValues = paddingValues,
             onClickSendButton = { viewModel.addMessage() },
-            messages = messages
+            messages = messages,
+            messageText = messageText,
+            onMessageTextChanged = { viewModel.onMessageTextChanged(it) }
         )
     }
 
     DisposableEffect(viewModel){
-        viewModel.attachListener(dummyUID)
+        viewModel.attachListener(toUid)
         onDispose {
             viewModel.detachListener()
         }
@@ -49,7 +54,9 @@ fun ChatDetailScreen(
 fun ChatColumn(
     paddingValues: PaddingValues = PaddingValues(all = 0.dp),
     onClickSendButton: () -> Unit = {},
-    messages: List<Message>
+    messages: List<Message>,
+    messageText: String,
+    onMessageTextChanged: (String) -> Unit
 ){
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -63,6 +70,8 @@ fun ChatColumn(
         }
         Row{
             MessageTextField(
+                messageText = messageText,
+                onMessageTextChanged = onMessageTextChanged,
                 onClickSendButton = { onClickSendButton() }
             )
         }
