@@ -65,6 +65,6 @@ class FirestoreRepo {
             .collection(conversationsCollectionName).document(auth.uid!!)
             .collection(conversationsPeopleCollectionName).document(uid!!)
             .collection(messagesCollectionName)
-            .orderBy(messageTimeFieldName)
+            .orderBy(messageTimeFieldName, Query.Direction.DESCENDING)
     }
 }

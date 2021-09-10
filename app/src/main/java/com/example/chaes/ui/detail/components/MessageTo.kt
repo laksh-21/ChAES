@@ -71,11 +71,6 @@ private fun MessageSurface(
             )
         ) {
             Text(
-                text = message.senderName,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.body1
-            )
-            Text(
                 text = message.content,
                 style = MaterialTheme.typography.body2
             )

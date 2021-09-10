@@ -1,13 +1,20 @@
 package com.example.chaes.ui.detail.viewModel
 
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.chaes.models.Message
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.utilities.Constants.dummyUID
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -97,8 +104,13 @@ class ChatDetailViewModel @Inject constructor(
     private val remoteReference: CollectionReference = dbRepo.getRemoteMessagesReference(dummyUID)
     fun addMessage(){
         Timber.i("Messages are being added")
-        localReference.add(Message())
-        remoteReference.add(Message())
+        val message: Message = Message(
+            content = messageText.value,
+            senderName = Firebase.auth.uid!!
+        )
+        localReference.add(message)
+        remoteReference.add(message)
+        messageText.value = ""
     }
     // writer code end
 }

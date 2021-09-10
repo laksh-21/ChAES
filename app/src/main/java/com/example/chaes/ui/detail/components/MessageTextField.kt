@@ -27,7 +27,11 @@ fun MessageTextField(
         contentAlignment = Alignment.CenterEnd,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 8.dp
+            )
     ) {
         val buttonSize = 50.dp
         TextField(
@@ -39,8 +43,7 @@ fun MessageTextField(
                 disabledIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
-            maxLines = 1,
-            singleLine = true,
+            maxLines = 2,
             shape = RoundedCornerShape(100),
             placeholder = { Text(text = "Type your message..") },
         )
