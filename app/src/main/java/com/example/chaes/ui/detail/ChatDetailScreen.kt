@@ -19,7 +19,9 @@ import com.example.chaes.ui.detail.components.MessageTextField
 import com.example.chaes.ui.detail.components.MessagesList
 import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
 import com.example.chaes.utilities.Constants.dummyUID
+import com.example.chaes.utilities.NavigationRoutes
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -97,12 +99,7 @@ fun TitleBar(
             )
         },
         navigationIcon = {
-            IconButton(onClick = {
-                navController.popBackStack(
-                    chatDetailScreenRoute,
-                    inclusive = true
-                )
-            }) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Navigate Back"

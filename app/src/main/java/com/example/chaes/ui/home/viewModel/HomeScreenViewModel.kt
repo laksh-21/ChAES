@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chaes.models.Conversation
 import com.example.chaes.repository.FirestoreRepo
+import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    dbRepo: FirestoreRepo
+    private val dbRepo: FirestoreRepo
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
@@ -87,5 +88,28 @@ class HomeScreenViewModel @Inject constructor(
         val mutableConversationList = conversations.value.toMutableList()
         mutableConversationList.removeAt(change.oldIndex)
         conversations.value = mutableConversationList.toList()
+    }
+
+    fun onSearchUserClicked(callback: UserExistsCallback){
+        dbRepo.doesUserExist(
+            name = searchUserText.value,
+            callback = object : UserExistsCallback{
+                override fun userExists(uid: String) {
+                    Timber.d("User does exist")
+                    callback.userExists(uid)
+                }
+
+                override fun userDoesNotExist() {
+                    Timber.d("User does not exist")
+                    callback.userDoesNotExist()
+                }
+
+                override fun userCheckFailed() {
+                    Timber.d("Something went wrong. Try again")
+                    callback.userCheckFailed()
+                }
+
+            }
+        )
     }
 }

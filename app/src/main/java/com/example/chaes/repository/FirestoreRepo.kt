@@ -1,6 +1,7 @@
 package com.example.chaes.repository
 
 import com.example.chaes.models.User
+import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.utilities.Constants
 import com.example.chaes.utilities.Constants.conversationsCollectionName
 import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
@@ -66,5 +68,26 @@ class FirestoreRepo {
             .collection(conversationsPeopleCollectionName).document(uid!!)
             .collection(messagesCollectionName)
             .orderBy(messageTimeFieldName, Query.Direction.DESCENDING)
+    }
+
+    fun doesUserExist(
+        name: String?,
+        callback: UserExistsCallback
+    ){
+        val userQuery = db
+            .collection(Constants.usersCollectionName)
+            .whereEqualTo("userName", name)
+            .get()
+        userQuery
+            .addOnSuccessListener { documents ->
+            if(documents == null || documents.isEmpty){
+                callback.userDoesNotExist()
+            } else{
+                val uid = documents.documents[0].toObject<User>()?.uid
+                callback.userExists(uid!!)
+            } }
+            .addOnFailureListener{
+                callback.userCheckFailed()
+            }
     }
 }

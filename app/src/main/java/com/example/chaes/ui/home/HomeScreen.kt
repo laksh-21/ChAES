@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -20,8 +21,10 @@ import com.example.chaes.ui.home.components.MessagesHeader
 import com.example.chaes.ui.home.components.SearchUserTextField
 import com.example.chaes.ui.home.viewModel.HomeScreenViewModel
 import com.example.chaes.models.Conversation
+import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.utilities.Constants.dummyUID
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
+import timber.log.Timber
 
 @ExperimentalMaterialApi
 @Composable
@@ -38,7 +41,23 @@ fun HomeScreen(
         val searchText: String by viewModel.searchUserText.observeAsState("")
         SearchSection(
             searchText = searchText,
-            onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) }
+            onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) },
+            onSearchUserClicked = {
+                viewModel.onSearchUserClicked(
+                    callback = object : UserExistsCallback{
+                        override fun userExists(uid: String) {
+                            Timber.d("User does exist $uid")
+                            navController.navigate("$chatDetailScreenRoute/$uid")
+                        }
+                        override fun userDoesNotExist() {
+                            Timber.d("User does not exist")
+                        }
+                        override fun userCheckFailed() {
+                            Timber.d("Something went wrong. Try again")
+                        }
+                    }
+                )
+            }
         )
         MessagesHeader()
         ConversationsList(
@@ -46,12 +65,20 @@ fun HomeScreen(
             navController = navController
         )
     }
+
+//    DisposableEffect(viewModel){
+//        viewModel.attachListener()
+//        onDispose{
+//            viewModel.detachListener()
+//        }
+//    }
 }
 
 @Composable
 fun SearchSection(
     searchText: String,
     onSearchUserTextChanged: (String) -> Unit,
+    onSearchUserClicked: () -> Unit
 ){
     Column(
         modifier = Modifier
@@ -69,7 +96,8 @@ fun SearchSection(
         Spacer(modifier = Modifier.height(16.dp))
         SearchUserTextField(
             searchUserText = searchText,
-            onSearchUserTextChanged = { onSearchUserTextChanged(it) }
+            onSearchUserTextChanged = { onSearchUserTextChanged(it) },
+            onSearchUserClicked = { onSearchUserClicked() }
         )
     }
 }

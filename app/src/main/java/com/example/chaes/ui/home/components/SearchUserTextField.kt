@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 fun SearchUserTextField(
     searchUserText: String,
     onSearchUserTextChanged: (String) -> Unit,
+    onSearchUserClicked: () -> Unit
 ){
     Box(
         contentAlignment = Alignment.CenterEnd,
@@ -44,7 +45,7 @@ fun SearchUserTextField(
             },
         )
         Button(
-            onClick = {},
+            onClick = { onSearchUserClicked() },
             shape = CircleShape,
             modifier = Modifier.size(buttonSize),
         ) {
