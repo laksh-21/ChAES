@@ -71,20 +71,22 @@ class FirestoreRepo {
     }
 
     fun doesUserExist(
-        name: String?,
+        userName: String?,
         callback: UserExistsCallback
     ){
         val userQuery = db
             .collection(Constants.usersCollectionName)
-            .whereEqualTo("userName", name)
+            .whereEqualTo("userName", userName)
             .get()
         userQuery
             .addOnSuccessListener { documents ->
             if(documents == null || documents.isEmpty){
                 callback.userDoesNotExist()
             } else{
-                val uid = documents.documents[0].toObject<User>()?.uid
-                callback.userExists(uid!!)
+                val user = documents.documents[0].toObject<User>()
+                val uid = user?.uid
+                val name = user?.name
+                callback.userExists(uid!!, name!!)
             } }
             .addOnFailureListener{
                 callback.userCheckFailed()

@@ -30,12 +30,16 @@ import timber.log.Timber
 fun ChatDetailScreen(
     navController: NavController,
     viewModel: ChatDetailViewModel,
-    toUid: String?
+    toUid: String?,
+    name: String?,
 ){
     Timber.d(toUid)
     Scaffold(
         topBar = {
-            TitleBar(navController = navController)
+            TitleBar(
+                navController = navController,
+                name = name
+            )
         },
     ) { paddingValues ->
         val messages = viewModel.messages.value
@@ -89,11 +93,12 @@ fun ChatColumn(
 @Composable
 fun TitleBar(
     navController: NavController,
+    name: String?
 ){
     TopAppBar(
         title = {
             Text(
-                text = "Title here",
+                text = name?:"Title Here",
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.subtitle1
             )

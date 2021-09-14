@@ -45,9 +45,12 @@ fun HomeScreen(
             onSearchUserClicked = {
                 viewModel.onSearchUserClicked(
                     callback = object : UserExistsCallback{
-                        override fun userExists(uid: String) {
+                        override fun userExists(
+                            uid: String,
+                            name: String
+                        ) {
                             Timber.d("User does exist $uid")
-                            navController.navigate("$chatDetailScreenRoute/$uid")
+                            navController.navigate("$chatDetailScreenRoute/$uid/$name")
                         }
                         override fun userDoesNotExist() {
                             Timber.d("User does not exist")
@@ -118,13 +121,17 @@ fun ConversationsList(
     ) {
         item {
             ConversationCard(
-                onConversationClick = { navController.navigate("$chatDetailScreenRoute/$dummyUID") }
+                onConversationClick = { navController.navigate("$chatDetailScreenRoute/$dummyUID/Dummy") }
             )
         }
         items(conversations){ conversation ->
             ConversationCard(
                 conversation = conversation,
-                onConversationClick = { navController.navigate("$chatDetailScreenRoute/${conversation.uid}") }
+                onConversationClick = {
+                    navController.navigate(
+                        "$chatDetailScreenRoute/${conversation.uid}/${conversation.name}"
+                    )
+                }
             )
         }
     }

@@ -92,11 +92,14 @@ class HomeScreenViewModel @Inject constructor(
 
     fun onSearchUserClicked(callback: UserExistsCallback){
         dbRepo.doesUserExist(
-            name = searchUserText.value,
+            userName = searchUserText.value,
             callback = object : UserExistsCallback{
-                override fun userExists(uid: String) {
+                override fun userExists(
+                    uid: String,
+                    name: String
+                ) {
                     Timber.d("User does exist")
-                    callback.userExists(uid)
+                    callback.userExists(uid, name)
                 }
 
                 override fun userDoesNotExist() {

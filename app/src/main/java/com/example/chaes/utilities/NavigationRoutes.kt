@@ -6,5 +6,6 @@ object NavigationRoutes {
     const val signupScreenRoute = "signupScreen"
     const val homeScreenRoute = "homeScreen"
     const val chatDetailUidArgName = "toUid"
+    const val chatDetailNameArgName = "userName"
     const val chatDetailScreenRoute = "chatDetailScreen"
 }

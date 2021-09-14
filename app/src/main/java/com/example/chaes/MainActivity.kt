@@ -19,6 +19,7 @@ import com.example.chaes.ui.login.SignUpScreen
 import com.example.chaes.ui.login.viewModel.LoginViewModel
 import com.example.chaes.ui.login.viewModel.SignUpViewModel
 import com.example.chaes.ui.splash.SplashScreen
+import com.example.chaes.utilities.NavigationRoutes.chatDetailNameArgName
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
 import com.example.chaes.utilities.NavigationRoutes.chatDetailUidArgName
 import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
@@ -66,12 +67,13 @@ class MainActivity : AppCompatActivity() {
                             viewModel = homeViewModel
                         )
                     }
-                    composable("$chatDetailScreenRoute/{$chatDetailUidArgName}") { backStackEntry ->
+                    composable("$chatDetailScreenRoute/{$chatDetailUidArgName}/{$chatDetailNameArgName}") { backStackEntry ->
                         val chatDetailViewModel: ChatDetailViewModel = hiltViewModel()
                         ChatDetailScreen(
                             navController = navController,
                             viewModel = chatDetailViewModel,
-                            toUid = backStackEntry.arguments?.getString(chatDetailUidArgName)
+                            toUid = backStackEntry.arguments?.getString(chatDetailUidArgName),
+                            name = backStackEntry.arguments?.getString(chatDetailNameArgName),
                         )
                     }
                 }
