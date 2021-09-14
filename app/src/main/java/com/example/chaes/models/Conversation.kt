@@ -5,6 +5,7 @@ import java.util.*
 
 data class Conversation(
     val name: String = "empty_user",
+    @field:JvmField // because prefix = "is"
     val isOpened: Boolean = true,
     @ServerTimestamp
     val lastUpdated: Date? = null,

@@ -62,7 +62,7 @@ fun HomeScreen(
                 )
             }
         )
-        MessagesHeader()
+        MessagesHeader(unreadCount = countUnread(conversations = conversations))
         ConversationsList(
             conversations = conversations,
             navController = navController
@@ -75,6 +75,14 @@ fun HomeScreen(
             viewModel.detachListener()
         }
     }
+}
+
+fun countUnread(conversations: List<Conversation>): Int {
+    var count: Int = 0
+    for (conversation in conversations) {
+        if(!conversation.isOpened) count++
+    }
+    return count
 }
 
 @Composable

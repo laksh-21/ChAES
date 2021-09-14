@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MessagesHeader(){
+fun MessagesHeader(unreadCount: Int = 0){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,7 +70,7 @@ fun MessagesHeader(){
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "0",
+                    text = "$unreadCount",
                     fontWeight = FontWeight.SemiBold,
                     style = MaterialTheme.typography.subtitle1,
                     color = MaterialTheme.colors.primary,
