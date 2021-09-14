@@ -11,6 +11,7 @@ import com.example.chaes.utilities.Constants.messagesCollectionName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -60,6 +61,22 @@ class FirestoreRepo {
             .collection(conversationsPeopleCollectionName).document(auth.uid!!)
             .collection(messagesCollectionName)
     }
+
+    // conversations
+    fun getLocalConversationReference(uid: String): DocumentReference {
+
+        return db
+            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsPeopleCollectionName).document(uid)
+    }
+
+    fun getRemoteConversationReference(uid: String): DocumentReference {
+
+        return db
+            .collection(conversationsCollectionName).document(uid)
+            .collection(conversationsPeopleCollectionName).document(auth.uid!!)
+    }
+
 
     fun getMessagesQuery(uid: String?): Query{
 

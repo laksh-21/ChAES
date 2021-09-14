@@ -2,9 +2,11 @@ package com.example.chaes.ui.detail.viewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.utilities.Constants.dummyUID
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
@@ -19,19 +21,33 @@ class ChatDetailViewModel @Inject constructor(
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
+    private val auth: FirebaseAuth = Firebase.auth
     val messageText = mutableStateOf("")
 
     fun onMessageTextChanged(text: String){
         messageText.value = text
     }
 
+    private var userUid: String? = dummyUID
+    private var userName: String? = "Dummy Name"
+
     // Listener code start
     private lateinit var query: Query
+    private lateinit var conversationQuery: Query
     private var registration: ListenerRegistration? = null
 
     val messages = mutableStateOf(listOf<Message>())
 
-    fun attachListener(uid: String?){
+    fun handleInfo(
+        uid: String?,
+        name: String?
+    ){
+        userUid = uid
+        userName = name
+        attachListener(uid)
+    }
+
+    private fun attachListener(uid: String?){
         query = dbRepo.getMessagesQuery(uid)
         Timber.i("Messages are listened to")
         if(registration == null){
@@ -105,7 +121,33 @@ class ChatDetailViewModel @Inject constructor(
         )
         localReference.add(message)
         remoteReference.add(message)
+        updateDocument()
         messageText.value = ""
+    }
+
+    private val localConversationRef: DocumentReference = dbRepo.getLocalConversationReference(dummyUID)
+    private val remoteConversationRef: DocumentReference = dbRepo.getRemoteConversationReference(dummyUID)
+    private fun updateDocument(){
+        val localConversation = Conversation(
+            name = userName!!,
+            isOpened = false,
+            uid = userUid!!,
+            lastMessage = messageText.value
+        )
+        val remoteConversation = Conversation(
+            name = auth.currentUser?.displayName!!,
+            isOpened = false,
+            uid = auth.uid!!,
+            lastMessage = messageText.value
+        )
+        localConversationRef.set(
+            localConversation,
+            SetOptions.merge()
+        )
+        remoteConversationRef.set(
+            remoteConversation,
+            SetOptions.merge()
+        )
     }
     // writer code end
 }

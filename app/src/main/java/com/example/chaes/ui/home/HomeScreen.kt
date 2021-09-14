@@ -69,12 +69,12 @@ fun HomeScreen(
         )
     }
 
-//    DisposableEffect(viewModel){
-//        viewModel.attachListener()
-//        onDispose{
-//            viewModel.detachListener()
-//        }
-//    }
+    DisposableEffect(viewModel){
+        viewModel.attachListener()
+        onDispose{
+            viewModel.detachListener()
+        }
+    }
 }
 
 @Composable

@@ -55,7 +55,7 @@ fun ChatDetailScreen(
     }
 
     DisposableEffect(viewModel){
-        viewModel.attachListener(toUid)
+        viewModel.handleInfo(uid = toUid, name = name)
         onDispose {
             viewModel.detachListener()
         }
