@@ -129,11 +129,6 @@ fun ConversationsList(
                 shape = RectangleShape
             )
     ) {
-        item {
-            ConversationCard(
-                onConversationClick = { navController.navigate("$chatDetailScreenRoute/$dummyUID/Dummy") }
-            )
-        }
         items(conversations){ conversation ->
             ConversationCard(
                 conversation = conversation,

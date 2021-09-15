@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chaes.models.Message
+import com.example.chaes.utilities.TimeUtils
 
 @Preview
 @Composable
@@ -29,7 +30,7 @@ fun MessageFrom(
                 .padding(horizontal = 16.dp, vertical = 4.dp)
         ) {
             MessageSurface(message = message)
-            TimeText()
+            TimeText(time = TimeUtils.convertDateToTime(message.messageTime!!))
         }
     }
 }
@@ -67,9 +68,9 @@ private fun MessageSurface(
 
 
 @Composable
-private fun TimeText() {
+private fun TimeText(time: String = "Time") {
     Text(
-        text = "Time",
+        text = time,
         textAlign = TextAlign.Start,
         modifier = Modifier.fillMaxWidth(),
         fontWeight = FontWeight.Bold,

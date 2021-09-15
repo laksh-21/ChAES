@@ -12,6 +12,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chaes.models.Conversation
+import com.example.chaes.utilities.TimeUtils
+import timber.log.Timber
 
 @ExperimentalMaterialApi
 @Composable
@@ -59,7 +61,7 @@ fun ConversationCard(
                 )
             }
             Text(
-                text = "12:47",
+                text = TimeUtils.convertDateToTime(conversation.lastUpdated!!),
                 style = MaterialTheme.typography.body2,
                 color = textColor,
                 fontWeight = textWeight,
