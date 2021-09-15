@@ -21,7 +21,6 @@ class ChatDetailViewModel @Inject constructor(
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
-    private val auth: FirebaseAuth = Firebase.auth
     val messageText = mutableStateOf("")
 
     fun onMessageTextChanged(text: String){
@@ -111,43 +110,13 @@ class ChatDetailViewModel @Inject constructor(
     // listener code end
 
     // writer code start
-    private val localReference: CollectionReference = dbRepo.getLocalMessagesReference(dummyUID)
-    private val remoteReference: CollectionReference = dbRepo.getRemoteMessagesReference(dummyUID)
     fun addMessage(){
-        Timber.i("Messages are being added")
-        val message = Message(
-            content = messageText.value,
-            senderName = Firebase.auth.uid!!
+        dbRepo.addMessage(
+            messageText = messageText.value,
+            userName = userName,
+            userUid = userUid
         )
-        localReference.add(message)
-        remoteReference.add(message)
-        updateDocument()
         messageText.value = ""
-    }
-
-    private val localConversationRef: DocumentReference = dbRepo.getLocalConversationReference(dummyUID)
-    private val remoteConversationRef: DocumentReference = dbRepo.getRemoteConversationReference(dummyUID)
-    private fun updateDocument(){
-        val localConversation = Conversation(
-            name = userName!!,
-            isOpened = false,
-            uid = userUid!!,
-            lastMessage = messageText.value
-        )
-        val remoteConversation = Conversation(
-            name = auth.currentUser?.displayName!!,
-            isOpened = false,
-            uid = auth.uid!!,
-            lastMessage = messageText.value
-        )
-        localConversationRef.set(
-            localConversation,
-            SetOptions.merge()
-        )
-        remoteConversationRef.set(
-            remoteConversation,
-            SetOptions.merge()
-        )
     }
     // writer code end
 }

@@ -8,6 +8,7 @@ object Constants{
     const val conversationsCollectionName = "conversations"
     const val conversationsPeopleCollectionName = "people"
     const val lastUpdatedFieldName = "lastUpdated"
+    const val conversationIsOpenedFieldName = "isOpened"
 
     // messages
     const val messagesCollectionName = "user_messages"

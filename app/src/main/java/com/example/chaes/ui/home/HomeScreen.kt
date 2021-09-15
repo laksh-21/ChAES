@@ -65,7 +65,8 @@ fun HomeScreen(
         MessagesHeader(unreadCount = countUnread(conversations = conversations))
         ConversationsList(
             conversations = conversations,
-            navController = navController
+            navController = navController,
+            setConversationOpened = { viewModel.setConversationOpened(uid = it) }
         )
     }
 
@@ -118,6 +119,7 @@ fun SearchSection(
 fun ConversationsList(
     conversations: List<Conversation>,
     navController: NavController,
+    setConversationOpened: (String) -> Unit
 ){
     LazyColumn(
         modifier = Modifier
@@ -136,6 +138,9 @@ fun ConversationsList(
             ConversationCard(
                 conversation = conversation,
                 onConversationClick = {
+                    if(!conversation.isOpened){
+                        setConversationOpened(conversation.uid)
+                    }
                     navController.navigate(
                         "$chatDetailScreenRoute/${conversation.uid}/${conversation.name}"
                     )

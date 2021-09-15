@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.chaes.models.Conversation
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.UserExistsCallback
+import com.example.chaes.utilities.Constants.conversationIsOpenedFieldName
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -114,5 +115,9 @@ class HomeScreenViewModel @Inject constructor(
 
             }
         )
+    }
+
+    fun setConversationOpened(uid: String){
+        dbRepo.setConversationOpened(uid)
     }
 }

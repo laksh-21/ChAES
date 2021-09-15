@@ -1,5 +1,7 @@
 package com.example.chaes.repository
 
+import com.example.chaes.models.Conversation
+import com.example.chaes.models.Message
 import com.example.chaes.models.User
 import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.utilities.Constants
@@ -10,10 +12,7 @@ import com.example.chaes.utilities.Constants.messageTimeFieldName
 import com.example.chaes.utilities.Constants.messagesCollectionName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -46,7 +45,7 @@ class FirestoreRepo {
     }
 
     // messages
-    fun getLocalMessagesReference(uid: String): CollectionReference {
+    private fun getLocalMessagesReference(uid: String): CollectionReference {
 
         return db
             .collection(conversationsCollectionName).document(auth.uid!!)
@@ -54,7 +53,7 @@ class FirestoreRepo {
             .collection(messagesCollectionName)
     }
 
-    fun getRemoteMessagesReference(uid: String): CollectionReference {
+    private fun getRemoteMessagesReference(uid: String): CollectionReference {
 
         return db
             .collection(conversationsCollectionName).document(uid)
@@ -70,7 +69,7 @@ class FirestoreRepo {
             .collection(conversationsPeopleCollectionName).document(uid)
     }
 
-    fun getRemoteConversationReference(uid: String): DocumentReference {
+    private fun getRemoteConversationReference(uid: String): DocumentReference {
 
         return db
             .collection(conversationsCollectionName).document(uid)
@@ -108,5 +107,71 @@ class FirestoreRepo {
             .addOnFailureListener{
                 callback.userCheckFailed()
             }
+    }
+
+    fun addMessage(
+        messageText: String,
+        userName: String?,
+        userUid: String?,
+    ){
+        val localMessagesReference: CollectionReference = getLocalMessagesReference(userUid!!)
+        val remoteMessagesReference: CollectionReference = getRemoteMessagesReference(userUid)
+
+        Timber.i("Messages are being added")
+        val message = Message(
+            content = messageText,
+            senderName = Firebase.auth.uid!!
+        )
+        localMessagesReference.add(message)
+        remoteMessagesReference.add(message)
+
+        val localConversation = Conversation(
+            name = userName!!,
+            isOpened = true,
+            uid = userUid,
+            lastMessage = messageText
+        )
+        val remoteConversation = Conversation(
+            name = auth.currentUser?.displayName!!,
+            isOpened = false,
+            uid = auth.uid!!,
+            lastMessage = messageText
+        )
+
+        updateConversationDocument(
+            uid = userUid,
+            localConversation = localConversation,
+            remoteConversation = remoteConversation
+        )
+    }
+
+    private fun updateConversationDocument(
+        uid: String,
+        localConversation: Conversation,
+        remoteConversation: Conversation
+    ){
+        val localConversationReference: DocumentReference = getLocalConversationReference(uid)
+        val remoteConversationReference: DocumentReference = getRemoteConversationReference(uid)
+
+        localConversationReference.set(
+            localConversation,
+            SetOptions.merge()
+        )
+        remoteConversationReference.set(
+            remoteConversation,
+            SetOptions.merge()
+        )
+    }
+
+    fun setConversationOpened(uid: String){
+        Timber.i("Conversation set: $uid")
+        val localConversationRef: DocumentReference = getLocalConversationReference(uid = uid)
+        val updatedData = hashMapOf(
+            Constants.conversationIsOpenedFieldName to true
+        )
+        localConversationRef.set(
+            updatedData,
+            SetOptions.merge()
+        )
     }
 }
