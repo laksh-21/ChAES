@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chaes.models.Conversation
+import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.utilities.Constants.conversationIsOpenedFieldName
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val dbRepo: FirestoreRepo
+    private val dbRepo: FirestoreRepo,
+    private val authRepo: FirebaseAuthRepo
 ) : ViewModel(),
     EventListener<QuerySnapshot>
 {
@@ -26,6 +28,16 @@ class HomeScreenViewModel @Inject constructor(
 
     fun onSearchUserTextChanged(text: String){
         _searchUserText.value = text
+    }
+
+    // Drop-down menu
+    val menuOpened = mutableStateOf(false)
+    fun onClickMoreDots(){
+        menuOpened.value = !menuOpened.value
+    }
+
+    fun onClickSignOut(){
+        authRepo.signOut()
     }
 
     // conversations processing

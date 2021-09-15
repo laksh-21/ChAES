@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.chaes.models.User
 import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
-import com.example.chaes.repository.callbacks.SignInCallback
+import com.example.chaes.repository.callbacks.SignUpCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -67,7 +67,7 @@ class SignUpViewModel @Inject constructor(
     fun onClickSignup(){
         firebaseAuthRepo.register(
             // callback when user is logged in or it failed
-            object : SignInCallback{
+            object : SignUpCallback{
                 override fun onUserSignInSuccessful(uid: String) {
                     Timber.d("Sign-in successful")
                     addUserToFirestore(uid)

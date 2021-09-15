@@ -16,33 +16,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.chaes.repository.callbacks.SignInCallback
 import com.example.chaes.ui.login.components.InfoTextField
 import com.example.chaes.ui.login.viewModel.LoginViewModel
 import com.example.chaes.ui.login.components.HeaderSection
 import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
 import com.example.chaes.utilities.NavigationRoutes.loginScreenRoute
 import com.example.chaes.utilities.NavigationRoutes.signupScreenRoute
+import timber.log.Timber
 
 @Composable
 fun LoginScreen(
     navController: NavController?,
     viewModel: LoginViewModel,
 ){
-    val userLoggedIn by viewModel.userLoggedIn.observeAsState(false)
-    val userNavigated by viewModel.userNavigated.observeAsState(false)
-    if(userLoggedIn && !userNavigated){
-        viewModel.onUserNavigated()
-        navController?.navigate(homeScreenRoute){
-            popUpTo(loginScreenRoute){
-                inclusive = true
-            }
-        }
-    }
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -63,7 +56,27 @@ fun LoginScreen(
             onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
             onPasswordTextChanged = { viewModel.onPasswordTextChanged(it) }
         )
-        LoginButtons(onClickLogin = { viewModel.onClickLogin() })
+        LoginButtons(
+            onClickLogin = {
+                viewModel.onClickLogin(
+                    object : SignInCallback{
+                        override fun onSignInSuccessful() {
+                            Timber.d("Sign-in Successful")
+                            navController?.navigate(homeScreenRoute){
+                                popUpTo(loginScreenRoute){
+                                    inclusive = true
+                                }
+                            }
+                        }
+
+                        override fun onSignInFailed() {
+                            // nothing yet
+                        }
+
+                    }
+                )
+            }
+        )
         SignupRow(navController = navController)
         Button(
             onClick = {

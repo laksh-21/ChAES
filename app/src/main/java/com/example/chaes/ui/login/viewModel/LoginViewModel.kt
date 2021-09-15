@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.chaes.repository.FirebaseAuthRepo
+import com.example.chaes.repository.callbacks.SignInCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -35,7 +36,20 @@ class LoginViewModel @Inject constructor(
         _passwordText.value = text
     }
 
-    fun onClickLogin(){
-        firebaseAuthRepo.login(emailText.value, passwordText.value)
+    fun onClickLogin(callback: SignInCallback){
+        firebaseAuthRepo.login(
+            emailText.value,
+            passwordText.value,
+            object : SignInCallback{
+                override fun onSignInSuccessful() {
+                    callback.onSignInSuccessful()
+                }
+
+                override fun onSignInFailed() {
+                    callback.onSignInFailed()
+                }
+
+            }
+        )
     }
 }
