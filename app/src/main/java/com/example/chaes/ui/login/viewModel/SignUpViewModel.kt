@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.chaes.models.User
 import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
+import com.example.chaes.repository.callbacks.SignInCallback
 import com.example.chaes.repository.callbacks.SignUpCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
@@ -64,17 +65,21 @@ class SignUpViewModel @Inject constructor(
         _confirmPasswordText.value = text
     }
 
-    fun onClickSignup(){
+    fun onClickSignup(
+        callback: SignInCallback
+    ){
         firebaseAuthRepo.register(
             // callback when user is logged in or it failed
             object : SignUpCallback{
-                override fun onUserSignInSuccessful(uid: String) {
+                override fun onUserSignUpSuccessful(uid: String) {
                     Timber.d("Sign-in successful")
+                    callback.onSignInSuccessful()
                     addUserToFirestore(uid)
                 }
 
-                override fun onUserSignInFailed() {
+                override fun onUserSignUpFailed() {
                     Timber.d("Sign-in failed")
+                    callback.onSignInFailed()
                 }
             },
             emailText.value,

@@ -55,10 +55,10 @@ class FirebaseAuthRepo(app: Context) {
                         Timber.d("Sign-in Successful")
                         userLoggedIn.value = true
                         addUserInfo(name)
-                        firebaseUser?.let { callback.onUserSignInSuccessful(it.uid) }
+                        firebaseUser?.let { callback.onUserSignUpSuccessful(it.uid) }
                     } else {
                         Timber.d("Sign-in failed")
-                        callback.onUserSignInFailed()
+                        callback.onUserSignUpFailed()
                     }
                 }
         }

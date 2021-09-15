@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.chaes.repository.callbacks.SignInCallback
 import com.example.chaes.ui.login.components.HeaderSection
 import com.example.chaes.ui.login.components.InfoTextField
 import com.example.chaes.ui.login.viewModel.SignUpViewModel
@@ -31,16 +32,6 @@ fun SignUpScreen(
     navController: NavController?,
     viewModel: SignUpViewModel,
 ){
-    val userLoggedIn by viewModel.userLoggedIn.observeAsState(false)
-    val userNavigated by viewModel.userNavigated.observeAsState(false)
-    if(userLoggedIn && !userNavigated){
-        viewModel.onUserNavigated()
-        navController?.navigate(homeScreenRoute){
-            popUpTo(loginScreenRoute){
-                inclusive = true
-            }
-        }
-    }
     Scaffold(
         topBar = { TitleBar(navController = navController) }
     ) {
@@ -74,7 +65,26 @@ fun SignUpScreen(
                 onConfirmPasswordTextChanged = { viewModel.onConfirmPasswordTextChanged(it) },
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SignupButton(onSignupClick = { viewModel.onClickSignup() })
+            SignupButton(
+                onSignupClick = {
+                    viewModel.onClickSignup(
+                        object : SignInCallback{
+                            override fun onSignInSuccessful() {
+                                navController?.navigate(homeScreenRoute){
+                                    popUpTo(loginScreenRoute){
+                                        inclusive = true
+                                    }
+                                }
+                            }
+
+                            override fun onSignInFailed() {
+                                // nothing yet
+                            }
+
+                        }
+                    )
+                }
+            )
             LoginRow(navController = navController)
         }
     }
