@@ -40,7 +40,8 @@ fun MessageTextField(
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
+                unfocusedIndicatorColor = Color.Transparent,
+                backgroundColor = Color.White
             ),
             maxLines = 2,
             shape = RoundedCornerShape(100),

@@ -29,6 +29,7 @@ import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.ui.home.components.TitleBar
 import com.example.chaes.utilities.Constants.dummyUID
 import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
+import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
 import com.example.chaes.utilities.NavigationRoutes.splashScreenRoute
 import timber.log.Timber
 
@@ -47,7 +48,9 @@ fun HomeScreen(
                 onClickSignOut = {
                     viewModel.onClickSignOut()
                     navController.navigate(splashScreenRoute){
-                        popUpTo(0)
+                        popUpTo(homeScreenRoute){
+                            inclusive = true
+                        }
                     }
                 },
                 userName = viewModel.getUserName()
@@ -95,12 +98,12 @@ fun HomeScreen(
         }
     }
 
-//    DisposableEffect(viewModel){
-//        viewModel.attachListener()
-//        onDispose{
-//            viewModel.detachListener()
-//        }
-//    }
+    DisposableEffect(viewModel){
+        viewModel.attachListener()
+        onDispose{
+            viewModel.detachListener()
+        }
+    }
 }
 
 fun countUnread(conversations: List<Conversation>): Int {

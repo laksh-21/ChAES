@@ -6,7 +6,7 @@ import java.util.*
 class TimeUtils {
     companion object {
         fun convertDateToTime(date: Date): String {
-            val dateFormatter = SimpleDateFormat("H:m", Locale.getDefault())
+            val dateFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
             return dateFormatter.format(date)
         }
     }

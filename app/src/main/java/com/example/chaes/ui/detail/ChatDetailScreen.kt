@@ -1,9 +1,11 @@
 package com.example.chaes.ui.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -71,12 +74,21 @@ fun ChatColumn(
     onMessageTextChanged: (String) -> Unit,
 ){
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 8.dp, end = 8.dp, top = 8.dp)
+            .background(
+                color = Color.Black,
+                shape = RoundedCornerShape(topStartPercent = 10, topEndPercent = 10)
+            ),
         verticalArrangement = Arrangement.Bottom
     ) {
         Row(modifier = Modifier.weight(1f, true)){
             MessagesList(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp)
+                ,
                 messages = messages,
             )
         }

@@ -33,22 +33,17 @@ class FirestoreRepo {
     }
 
     // conversations
-    private var conversationsQuery: Query? = null
-
     fun getConversationQuery(): Query{
-        if(conversationsQuery == null){
-            conversationsQuery = db
-                .collection(conversationsCollectionName).document(auth.uid!!)
-                .collection(conversationsPeopleCollectionName).orderBy(lastUpdatedFieldName, Query.Direction.DESCENDING)
-        }
-        return conversationsQuery as Query
+        return db
+            .collection(conversationsCollectionName).document(auth.currentUser!!.uid)
+            .collection(conversationsPeopleCollectionName).orderBy(lastUpdatedFieldName, Query.Direction.DESCENDING)
     }
 
     // messages
     private fun getLocalMessagesReference(uid: String): CollectionReference {
 
         return db
-            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsCollectionName).document(auth.currentUser!!.uid)
             .collection(conversationsPeopleCollectionName).document(uid)
             .collection(messagesCollectionName)
     }
@@ -57,7 +52,7 @@ class FirestoreRepo {
 
         return db
             .collection(conversationsCollectionName).document(uid)
-            .collection(conversationsPeopleCollectionName).document(auth.uid!!)
+            .collection(conversationsPeopleCollectionName).document(auth.currentUser!!.uid)
             .collection(messagesCollectionName)
     }
 
@@ -65,7 +60,7 @@ class FirestoreRepo {
     private fun getLocalConversationReference(uid: String): DocumentReference {
 
         return db
-            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsCollectionName).document(auth.currentUser!!.uid)
             .collection(conversationsPeopleCollectionName).document(uid)
     }
 
@@ -73,14 +68,14 @@ class FirestoreRepo {
 
         return db
             .collection(conversationsCollectionName).document(uid)
-            .collection(conversationsPeopleCollectionName).document(auth.uid!!)
+            .collection(conversationsPeopleCollectionName).document(auth.currentUser!!.uid)
     }
 
 
     fun getMessagesQuery(uid: String?): Query{
 
         return db
-            .collection(conversationsCollectionName).document(auth.uid!!)
+            .collection(conversationsCollectionName).document(auth.currentUser!!.uid)
             .collection(conversationsPeopleCollectionName).document(uid!!)
             .collection(messagesCollectionName)
             .orderBy(messageTimeFieldName, Query.Direction.DESCENDING)

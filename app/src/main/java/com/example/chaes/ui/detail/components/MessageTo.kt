@@ -32,7 +32,11 @@ fun MessageTo(
             horizontalAlignment = Alignment.End
         ) {
             MessageSurface(message = message)
-            TimeText(time = TimeUtils.convertDateToTime(message.messageTime!!))
+            if(message.messageTime == null){
+                TimeText(time = "Sending")
+            } else {
+                TimeText(time = TimeUtils.convertDateToTime(message.messageTime))
+            }
         }
     }
 }

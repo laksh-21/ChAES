@@ -60,8 +60,9 @@ fun ConversationCard(
                     fontWeight = textWeight,
                 )
             }
+            val timeText = if(conversation.lastUpdated == null)"•" else TimeUtils.convertDateToTime(conversation.lastUpdated!!)
             Text(
-                text = TimeUtils.convertDateToTime(conversation.lastUpdated!!),
+                text = timeText,
                 style = MaterialTheme.typography.body2,
                 color = textColor,
                 fontWeight = textWeight,
