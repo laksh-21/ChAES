@@ -4,6 +4,7 @@ import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.models.User
 import com.example.chaes.repository.callbacks.UserExistsCallback
+import com.example.chaes.repository.callbacks.UserNameCallback
 import com.example.chaes.utilities.Constants
 import com.example.chaes.utilities.Constants.conversationsCollectionName
 import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
@@ -168,5 +169,29 @@ class FirestoreRepo {
             updatedData,
             SetOptions.merge()
         )
+    }
+
+    fun getUserName(callback: UserNameCallback) {
+        val userQuery = db
+            .collection(Constants.usersCollectionName)
+            .whereEqualTo("uid", auth.currentUser!!.uid)
+            .get()
+        userQuery
+            .addOnSuccessListener { documents ->
+                if(documents == null || documents.isEmpty){
+                    callback.userNameGetFailed()
+                } else{
+                    val user = documents.documents[0].toObject<User>()
+                    val userName = if(user == null) "Fail" else user.userName
+                    Timber.d("User: $userName")
+                    if (userName != null) {
+                        callback.userNameGetSuccess(userName = userName)
+                    } else{
+                        callback.userNameGetFailed()
+                    }
+                } }
+            .addOnFailureListener{
+                callback.userNameGetFailed()
+            }
     }
 }

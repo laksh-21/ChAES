@@ -1,5 +1,8 @@
 package com.example.chaes.ui.home.viewModel
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +18,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,12 +31,9 @@ class HomeScreenViewModel @Inject constructor(
     EventListener<QuerySnapshot>
 {
     // user name
-    fun getUserName(): String{
-        var userName = ""
-        viewModelScope.launch {
-            userName = datastoreRepo.getUserName()
-        }
-        return userName
+    @Composable
+    fun getUserName(): State<String> {
+        return datastoreRepo.getUserName().collectAsState(initial = "User")
     }
 
     // search user text

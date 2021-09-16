@@ -42,6 +42,7 @@ fun HomeScreen(
     val menuOpened = viewModel.menuOpened.value
     Scaffold(
         topBar = {
+            val userName by viewModel.getUserName()
             TitleBar(
                 menuOpened = menuOpened,
                 onClickMoreDots = { viewModel.onClickMoreDots() },
@@ -53,7 +54,7 @@ fun HomeScreen(
                         }
                     }
                 },
-                userName = viewModel.getUserName()
+                userName = userName
             )
         }
     ) {

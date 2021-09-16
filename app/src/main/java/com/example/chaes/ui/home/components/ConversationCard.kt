@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chaes.models.Conversation
 import com.example.chaes.utilities.TimeUtils
-import timber.log.Timber
 
 @ExperimentalMaterialApi
 @Composable
@@ -60,7 +59,7 @@ fun ConversationCard(
                     fontWeight = textWeight,
                 )
             }
-            val timeText = if(conversation.lastUpdated == null)"•" else TimeUtils.convertDateToTime(conversation.lastUpdated!!)
+            val timeText = if(conversation.lastUpdated == null)"•" else TimeUtils.convertDateToTime(conversation.lastUpdated)
             Text(
                 text = timeText,
                 style = MaterialTheme.typography.body2,
