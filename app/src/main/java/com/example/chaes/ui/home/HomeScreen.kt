@@ -49,7 +49,8 @@ fun HomeScreen(
                     navController.navigate(splashScreenRoute){
                         popUpTo(0)
                     }
-                }
+                },
+                userName = viewModel.getUserName()
             )
         }
     ) {

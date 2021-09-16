@@ -3,12 +3,15 @@ package com.example.chaes.ui.login.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.chaes.models.User
+import com.example.chaes.repository.DatastoreRepo
 import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.SignInCallback
 import com.example.chaes.repository.callbacks.SignUpCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -16,15 +19,8 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val firebaseAuthRepo: FirebaseAuthRepo,
     private val dbRepo: FirestoreRepo,
+    private val datastoreRepo: DatastoreRepo
 ) : ViewModel() {
-    var userLoggedIn: LiveData<Boolean> = firebaseAuthRepo.userLoggedIn
-    private val _userNavigated = MutableLiveData(false)
-    val userNavigated: LiveData<Boolean> = _userNavigated
-
-    fun onUserNavigated(){
-        _userNavigated.value = true
-    }
-
     // full_name text
     private val _nameText = MutableLiveData("")
     var nameText: LiveData<String> = _nameText
@@ -75,6 +71,7 @@ class SignUpViewModel @Inject constructor(
                     Timber.d("Sign-in successful")
                     callback.onSignInSuccessful()
                     addUserToFirestore(uid)
+                    saveUserNameToDataStore(userNameText.value)
                 }
 
                 override fun onUserSignUpFailed() {
@@ -86,6 +83,14 @@ class SignUpViewModel @Inject constructor(
             passwordText.value,
             nameText.value,
         )
+    }
+
+    private fun saveUserNameToDataStore(userName: String?) {
+        viewModelScope.launch {
+            if (userName != null) {
+                datastoreRepo.saveUserName(userName)
+            }
+        }
     }
 
     fun addUserToFirestore(uid: String){

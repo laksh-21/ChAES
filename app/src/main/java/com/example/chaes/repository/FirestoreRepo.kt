@@ -62,7 +62,7 @@ class FirestoreRepo {
     }
 
     // conversations
-    fun getLocalConversationReference(uid: String): DocumentReference {
+    private fun getLocalConversationReference(uid: String): DocumentReference {
 
         return db
             .collection(conversationsCollectionName).document(auth.uid!!)

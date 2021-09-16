@@ -16,10 +16,11 @@ fun TitleBar(
     menuOpened: Boolean = false,
     onClickMoreDots: () -> Unit = {},
     onClickSignOut: () -> Unit = {},
+    userName: String = "User"
 ){
     TopAppBar(
         title = {
-            Text(text = "Welcome, Laksh")
+            Text(text = "Welcome, $userName")
         },
         actions = {
             Row {

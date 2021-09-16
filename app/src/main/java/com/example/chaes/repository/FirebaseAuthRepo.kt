@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class FirebaseAuthRepo(app: Context) {
     private var auth : FirebaseAuth = Firebase.auth
-    var userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
+    private var userLoggedIn: MutableLiveData<Boolean> = MutableLiveData(false)
     private var context: Context
     private var firebaseUser: FirebaseUser? = auth.currentUser
 
