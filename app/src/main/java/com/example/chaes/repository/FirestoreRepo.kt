@@ -1,5 +1,7 @@
 package com.example.chaes.repository
 
+import android.content.Context
+import android.widget.Toast
 import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.models.User
@@ -19,7 +21,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import timber.log.Timber
 
-class FirestoreRepo {
+class FirestoreRepo(app: Context) {
+    private val context: Context = app
     private var db: FirebaseFirestore = Firebase.firestore
     private var auth : FirebaseAuth = Firebase.auth
 
@@ -102,6 +105,7 @@ class FirestoreRepo {
             } }
             .addOnFailureListener{
                 callback.userCheckFailed()
+                Toast.makeText(context, "User $userName does not exist", Toast.LENGTH_SHORT).show()
             }
     }
 

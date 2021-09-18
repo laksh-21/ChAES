@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object FirestoreRepoModule {
     @Singleton
     @Provides
-    fun provideFirestoreRepo(): FirestoreRepo{
-        return FirestoreRepo()
+    fun provideFirestoreRepo(@ApplicationContext app: Context): FirestoreRepo{
+        return FirestoreRepo(app)
     }
 }

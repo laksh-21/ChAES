@@ -7,18 +7,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.chaes.models.Conversation
 import com.example.chaes.repository.DatastoreRepo
 import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.UserExistsCallback
-import com.example.chaes.utilities.Constants.conversationIsOpenedFieldName
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import javax.inject.Inject
 
