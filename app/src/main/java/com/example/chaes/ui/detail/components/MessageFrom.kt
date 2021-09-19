@@ -40,7 +40,11 @@ private fun MessageSurface(
     message: Message
 ) {
     Surface(
-        color = MaterialTheme.colors.primary,
+        color = MaterialTheme.colors.primary.copy(
+            red = 0.5f,
+            green = 0.5f,
+            blue = 0.5f
+        ),
         modifier = Modifier.padding(bottom = 4.dp),
         shape = RoundedCornerShape(
             topStartPercent = 25,

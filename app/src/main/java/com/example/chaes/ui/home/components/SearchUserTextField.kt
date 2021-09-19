@@ -23,7 +23,7 @@ fun SearchUserTextField(
     Box(
         contentAlignment = Alignment.CenterEnd,
     ) {
-        val buttonSize = 50.dp
+        val buttonSize = 55.dp
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = searchUserText,
@@ -31,7 +31,7 @@ fun SearchUserTextField(
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
+                unfocusedIndicatorColor = Color.Transparent,
             ),
             maxLines = 1,
             singleLine = true,
@@ -48,6 +48,9 @@ fun SearchUserTextField(
             onClick = { onSearchUserClicked() },
             shape = CircleShape,
             modifier = Modifier.size(buttonSize),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.secondary
+            )
         ) {
             Icon(
                 imageVector = Icons.Filled.ArrowForwardIos,

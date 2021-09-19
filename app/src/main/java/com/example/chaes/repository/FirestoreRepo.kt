@@ -3,7 +3,6 @@ package com.example.chaes.repository
 import android.content.Context
 import android.widget.Toast
 import com.example.chaes.models.Conversation
-import com.example.chaes.models.Message
 import com.example.chaes.models.User
 import com.example.chaes.repository.callbacks.UserExistsCallback
 import com.example.chaes.repository.callbacks.UserNameCallback
@@ -97,6 +96,7 @@ class FirestoreRepo(app: Context) {
         userQuery
             .addOnSuccessListener { documents ->
             if(documents == null || documents.isEmpty){
+                Toast.makeText(context, "User $userName does not exist", Toast.LENGTH_SHORT).show()
                 callback.userDoesNotExist()
             } else{
                 val user = documents.documents[0].toObject<User>()
@@ -106,7 +106,7 @@ class FirestoreRepo(app: Context) {
             } }
             .addOnFailureListener{
                 callback.userCheckFailed()
-                Toast.makeText(context, "User $userName does not exist", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Something went wrong. Try again", Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -118,11 +118,6 @@ class FirestoreRepo(app: Context) {
         val localMessagesReference: CollectionReference = getLocalMessagesReference(userUid!!)
         val remoteMessagesReference: CollectionReference = getRemoteMessagesReference(userUid)
 
-        Timber.i("Messages are being added")
-//        val message = Message(
-//            content = messageText,
-//            senderName = Firebase.auth.uid!!
-//        )
         val message = Encryptor.encryptMessage(
             message = messageText,
             senderName = Firebase.auth.uid!!

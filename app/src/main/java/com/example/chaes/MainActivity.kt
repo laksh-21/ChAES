@@ -6,10 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.chaes.theme.ChAESTheme
 import com.example.chaes.ui.detail.ChatDetailScreen
 import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
 import com.example.chaes.ui.home.HomeScreen
@@ -34,51 +36,61 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var randomString: String
-    @ExperimentalAnimationApi
     @ExperimentalMaterialApi
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+
         setContent {
-            val navController = rememberNavController()
-            Scaffold{
-                NavHost(navController = navController, startDestination = splashScreenRoute){
-                    composable(splashScreenRoute){
-                        SplashScreen(navController = navController)
-                    }
-                    composable(loginScreenRoute) {
-                        val loginViewModel: LoginViewModel = hiltViewModel()
-                        LoginScreen(
-                            navController = navController,
-                            viewModel = loginViewModel
-                        )
-                    }
-                    composable(signupScreenRoute) {
-                        val signupViewModel: SignUpViewModel = hiltViewModel()
-                        SignUpScreen(
-                            navController = navController,
-                            viewModel = signupViewModel
-                        )
-                    }
-                    composable(homeScreenRoute){
-                        val homeViewModel: HomeScreenViewModel = hiltViewModel()
-                        HomeScreen(
-                            navController = navController,
-                            viewModel = homeViewModel
-                        )
-                    }
-                    composable("$chatDetailScreenRoute/{$chatDetailUidArgName}/{$chatDetailNameArgName}") { backStackEntry ->
-                        val chatDetailViewModel: ChatDetailViewModel = hiltViewModel()
-                        ChatDetailScreen(
-                            navController = navController,
-                            viewModel = chatDetailViewModel,
-                            toUid = backStackEntry.arguments?.getString(chatDetailUidArgName),
-                            name = backStackEntry.arguments?.getString(chatDetailNameArgName),
-                        )
-                    }
-                }
+            ChAESTheme {
+                Navigator()
             }
         }
         Timber.d(randomString)
+    }
+
+    @ExperimentalAnimationApi
+    @ExperimentalMaterialApi
+    @Composable
+    fun Navigator(){
+        val navController = rememberNavController()
+        Scaffold{
+            NavHost(navController = navController, startDestination = splashScreenRoute){
+                composable(splashScreenRoute){
+                    SplashScreen(navController = navController)
+                }
+                composable(loginScreenRoute) {
+                    val loginViewModel: LoginViewModel = hiltViewModel()
+                    LoginScreen(
+                        navController = navController,
+                        viewModel = loginViewModel
+                    )
+                }
+                composable(signupScreenRoute) {
+                    val signupViewModel: SignUpViewModel = hiltViewModel()
+                    SignUpScreen(
+                        navController = navController,
+                        viewModel = signupViewModel
+                    )
+                }
+                composable(homeScreenRoute){
+                    val homeViewModel: HomeScreenViewModel = hiltViewModel()
+                    HomeScreen(
+                        navController = navController,
+                        viewModel = homeViewModel
+                    )
+                }
+                composable("$chatDetailScreenRoute/{$chatDetailUidArgName}/{$chatDetailNameArgName}") { backStackEntry ->
+                    val chatDetailViewModel: ChatDetailViewModel = hiltViewModel()
+                    ChatDetailScreen(
+                        navController = navController,
+                        viewModel = chatDetailViewModel,
+                        toUid = backStackEntry.arguments?.getString(chatDetailUidArgName),
+                        name = backStackEntry.arguments?.getString(chatDetailNameArgName),
+                    )
+                }
+            }
+        }
     }
 }

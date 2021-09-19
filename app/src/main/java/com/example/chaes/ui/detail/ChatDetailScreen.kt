@@ -78,7 +78,7 @@ fun ChatColumn(
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp, top = 8.dp)
             .background(
-                color = Color.Black,
+                color = MaterialTheme.colors.primary,
                 shape = RoundedCornerShape(topStartPercent = 10, topEndPercent = 10)
             ),
         verticalArrangement = Arrangement.Bottom

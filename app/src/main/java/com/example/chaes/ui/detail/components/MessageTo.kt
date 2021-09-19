@@ -58,7 +58,7 @@ private fun MessageSurface(
     message: Message
 ) {
     Surface(
-        color = MaterialTheme.colors.primaryVariant,
+        color = MaterialTheme.colors.surface,
         modifier = Modifier.padding(bottom = 4.dp),
         shape = RoundedCornerShape(
             topStartPercent = 25,
@@ -77,7 +77,8 @@ private fun MessageSurface(
         ) {
             Text(
                 text = message.content!!,
-                style = MaterialTheme.typography.body2
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.onSurface
             )
         }
 

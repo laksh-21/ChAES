@@ -78,17 +78,6 @@ fun LoginScreen(
             }
         )
         SignupRow(navController = navController)
-        Button(
-            onClick = {
-                navController?.navigate(homeScreenRoute){
-                    popUpTo(loginScreenRoute){
-                        inclusive = true
-                    }
-                }
-            }
-        ){
-            Text(text = "Click me!")
-        }
     }
 }
 
@@ -108,12 +97,12 @@ private fun LoginButtons(
         )
     }
     Spacer(modifier = Modifier.height(8.dp))
-    Text(
-        text = "Forgot Password?",
-        style = MaterialTheme.typography.subtitle2,
-        color = MaterialTheme.colors.primary,
-    )
-    Spacer(modifier = Modifier.height(16.dp))
+//    Text(
+//        text = "Forgot Password?",
+//        style = MaterialTheme.typography.subtitle2,
+//        color = MaterialTheme.colors.primary,
+//    )
+//    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable

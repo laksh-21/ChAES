@@ -1,9 +1,7 @@
 package com.example.chaes.ui.detail.components
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -22,8 +20,8 @@ fun MessageTextField(
     onMessageTextChanged: (String) -> Unit,
     onClickSendButton: () -> Unit = {}
 ){
-    Box(
-        contentAlignment = Alignment.CenterEnd,
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .padding(
@@ -32,30 +30,39 @@ fun MessageTextField(
                 bottom = 8.dp
             )
     ) {
-        val buttonSize = 50.dp
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = messageText,
-            onValueChange = { onMessageTextChanged(it) },
-            colors = TextFieldDefaults.textFieldColors(
-                focusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                backgroundColor = Color.White
-            ),
-            maxLines = 2,
-            shape = RoundedCornerShape(100),
-            placeholder = { Text(text = "Type your message..") },
-        )
-        Button(
-            onClick = { onClickSendButton() },
-            shape = CircleShape,
-            modifier = Modifier.size(buttonSize),
-        ) {
-            Icon(
-                imageVector = Icons.Filled.ArrowForwardIos,
-                contentDescription = "Go"
+        val buttonSize = 55.dp
+        Column(modifier = Modifier.weight(1f, true)) {
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 8.dp),
+                value = messageText,
+                onValueChange = { onMessageTextChanged(it) },
+                colors = TextFieldDefaults.textFieldColors(
+                    focusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    backgroundColor = Color.White.copy(alpha = 0.12f)
+                ),
+                maxLines = 2,
+                shape = RoundedCornerShape(100),
+                placeholder = { Text(text = "Type your message..") },
             )
+        }
+        Column {
+            Button(
+                onClick = { onClickSendButton() },
+                shape = CircleShape,
+                modifier = Modifier.size(buttonSize),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = MaterialTheme.colors.secondary
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ArrowForwardIos,
+                    contentDescription = "Go"
+                )
+            }
         }
     }
 }
