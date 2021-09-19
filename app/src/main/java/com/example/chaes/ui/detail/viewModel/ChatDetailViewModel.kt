@@ -6,6 +6,7 @@ import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.utilities.Constants.dummyUID
+import com.example.chaes.utilities.Encryptor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
@@ -88,22 +89,24 @@ class ChatDetailViewModel @Inject constructor(
 
     private fun onModified(change: DocumentChange) {
         val message: Message = change.document.toObject()
+        val decryptedMessage: Message = Encryptor.decryptMessage(encryptedMessage = message)
         val mutableMessageList = messages.value.toMutableList()
         if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            mutableMessageList[change.oldIndex] = message
+            mutableMessageList[change.oldIndex] = decryptedMessage
         } else {
             // Item changed and changed position
             mutableMessageList.removeAt(change.oldIndex)
-            mutableMessageList.add(change.newIndex, message)
+            mutableMessageList.add(change.newIndex, decryptedMessage)
         }
         messages.value = mutableMessageList.toList()
     }
 
     private fun onAdded(change: DocumentChange) {
         val message: Message = change.document.toObject()
+        val decryptedMessage: Message = Encryptor.decryptMessage(encryptedMessage = message)
         val mutableMessageList = messages.value.toMutableList()
-        mutableMessageList.add(change.newIndex, message)
+        mutableMessageList.add(change.newIndex, decryptedMessage)
         messages.value = mutableMessageList.toList()
         Timber.i("Message has been added: New Length is %d", messages.value.size)
     }

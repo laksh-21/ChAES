@@ -1,6 +1,7 @@
 package com.example.chaes.utilities
 
 import android.os.Build
+import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import timber.log.Timber
 import java.security.SecureRandom
@@ -11,11 +12,11 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-class Encryptor {
-    private val password = "@ppl3_p!3_hue"
-    private val ivKey = "iv"
-    private val saltKey = "salt"
-    private val messageKey = "encrypted"
+object Encryptor {
+    private const val password = "@ppl3_p!3_hue"
+    private const val ivKey = "iv"
+    private const val saltKey = "salt"
+    private const val messageKey = "encrypted"
 
     fun encryptMessage(
         message: String,
@@ -45,7 +46,8 @@ class Encryptor {
             content = decryptedMessage,
             senderName = encryptedMessage.senderName,
             messageIv = encryptedMessage.messageIv,
-            messageSalt = encryptedMessage.messageSalt
+            messageSalt = encryptedMessage.messageSalt,
+            messageTime = encryptedMessage.messageTime
         )
     }
 
@@ -118,7 +120,6 @@ class Encryptor {
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec)
         val decrypted = cipher.doFinal(encrypted)
 
-        Timber.d("Decrypted Message = %s", String(decrypted))
         return String(decrypted)
     }
 }

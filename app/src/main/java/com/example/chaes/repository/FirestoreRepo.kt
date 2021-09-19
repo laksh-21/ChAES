@@ -13,6 +13,7 @@ import com.example.chaes.utilities.Constants.conversationsPeopleCollectionName
 import com.example.chaes.utilities.Constants.lastUpdatedFieldName
 import com.example.chaes.utilities.Constants.messageTimeFieldName
 import com.example.chaes.utilities.Constants.messagesCollectionName
+import com.example.chaes.utilities.Encryptor
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
@@ -118,8 +119,12 @@ class FirestoreRepo(app: Context) {
         val remoteMessagesReference: CollectionReference = getRemoteMessagesReference(userUid)
 
         Timber.i("Messages are being added")
-        val message = Message(
-            content = messageText,
+//        val message = Message(
+//            content = messageText,
+//            senderName = Firebase.auth.uid!!
+//        )
+        val message = Encryptor.encryptMessage(
+            message = messageText,
             senderName = Firebase.auth.uid!!
         )
         localMessagesReference.add(message)

@@ -76,7 +76,7 @@ private fun MessageSurface(
             )
         ) {
             Text(
-                text = message.content,
+                text = message.content!!,
                 style = MaterialTheme.typography.body2
             )
         }
