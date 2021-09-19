@@ -10,5 +10,7 @@ data class Conversation(
     @ServerTimestamp
     val lastUpdated: Date? = null,
     val uid: String = "empty123",
-    val lastMessage: String = "last message"
+    val lastMessage: String? = "last message",
+    val lastMessageIv: String? = "hahaIv",
+    val lastMessageSalt: String? = "hahaSalt"
 )

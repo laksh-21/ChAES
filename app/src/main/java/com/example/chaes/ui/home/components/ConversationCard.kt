@@ -51,7 +51,7 @@ fun ConversationCard(
                 )
                 Text(
                     modifier = Modifier.padding(top = 8.dp),
-                    text = conversation.lastMessage,
+                    text = conversation.lastMessage!!,
                     style = MaterialTheme.typography.body2,
                     color = textColor,
                     maxLines = 1,

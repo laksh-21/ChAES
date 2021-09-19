@@ -12,6 +12,7 @@ import com.example.chaes.repository.DatastoreRepo
 import com.example.chaes.repository.FirebaseAuthRepo
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.repository.callbacks.UserExistsCallback
+import com.example.chaes.utilities.Encryptor
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -91,19 +92,21 @@ class HomeScreenViewModel @Inject constructor(
     private fun onAdded(change: DocumentChange){
         val mutableConversationList = conversations.value.toMutableList()
         val conversation: Conversation = change.document.toObject()
-        mutableConversationList.add(change.newIndex, conversation)
+        val decryptedConversation: Conversation = Encryptor.decryptConversation(conversation = conversation)
+        mutableConversationList.add(change.newIndex, decryptedConversation)
         conversations.value = mutableConversationList.toList()
     }
     private fun onModified(change: DocumentChange){
         val conversation: Conversation = change.document.toObject()
+        val decryptedConversation: Conversation = Encryptor.decryptConversation(conversation = conversation)
         val mutableConversationList = conversations.value.toMutableList()
         if (change.oldIndex == change.newIndex) {
             // Item changed but remained in same position
-            mutableConversationList[change.oldIndex] = conversation
+            mutableConversationList[change.oldIndex] = decryptedConversation
         } else {
             // Item changed and changed position
             mutableConversationList.removeAt(change.oldIndex)
-            mutableConversationList.add(change.newIndex, conversation)
+            mutableConversationList.add(change.newIndex, decryptedConversation)
         }
         conversations.value = mutableConversationList.toList()
     }

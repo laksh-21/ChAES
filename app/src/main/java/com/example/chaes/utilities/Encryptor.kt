@@ -51,6 +51,45 @@ object Encryptor {
         )
     }
 
+    fun encryptConversation(conversation: Conversation): Conversation{
+        if(conversation.lastMessage == null){
+            return conversation
+        }
+        val encryptedMap = encrypt(conversation.lastMessage)
+        return Conversation(
+            name = conversation.name,
+            isOpened = conversation.isOpened,
+            uid = conversation.uid,
+            lastMessage = encryptedMap[messageKey],
+            lastMessageIv = encryptedMap[ivKey],
+            lastMessageSalt = encryptedMap[saltKey]
+        )
+    }
+
+    fun decryptConversation(conversation: Conversation): Conversation{
+        if(conversation.lastMessage == null ||
+            conversation.lastMessageIv == null ||
+            conversation.lastMessageSalt == null){
+            return conversation
+        }
+
+        val decryptedMessage = decrypt(
+            messageIv = conversation.lastMessageIv,
+            messageSalt = conversation.lastMessageSalt,
+            encryptedMessage = conversation.lastMessage
+        )
+
+        return Conversation(
+            name = conversation.name,
+            isOpened = conversation.isOpened,
+            uid = conversation.uid,
+            lastMessage = decryptedMessage,
+            lastMessageIv = conversation.lastMessageIv,
+            lastMessageSalt = conversation.lastMessageSalt,
+            lastUpdated = conversation.lastUpdated
+        )
+    }
+
     private fun encrypt(message: String): Map<String, String>{
         // generating salt
         val saltRandom = SecureRandom()

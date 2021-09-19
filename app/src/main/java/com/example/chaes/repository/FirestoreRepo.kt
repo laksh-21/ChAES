@@ -142,11 +142,12 @@ class FirestoreRepo(app: Context) {
             uid = auth.uid!!,
             lastMessage = messageText
         )
-
+        val encryptedLocalConversation = Encryptor.encryptConversation(localConversation)
+        val encryptedRemoteConversation = Encryptor.encryptConversation(remoteConversation)
         updateConversationDocument(
             uid = userUid,
-            localConversation = localConversation,
-            remoteConversation = remoteConversation
+            localConversation = encryptedLocalConversation,
+            remoteConversation = encryptedRemoteConversation
         )
     }
 
