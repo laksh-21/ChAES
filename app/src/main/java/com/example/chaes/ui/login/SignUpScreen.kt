@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.chaes.repository.callbacks.SignInCallback
@@ -44,20 +43,41 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             val nameText: String by viewModel.nameText.observeAsState("")
-            val phoneText: String by viewModel.userNameText.observeAsState("")
+            val nameHintText = viewModel.nameHintText.value
+            val nameIsError = viewModel.nameIsError.value
+            val userNameText: String by viewModel.userNameText.observeAsState("")
+            val userNameHintText = viewModel.userNameHintText.value
+            val userNameIsError = viewModel.userNameIsError.value
             val emailText: String by viewModel.emailText.observeAsState("")
+            val emailHintText = viewModel.emailHintText.value
+            val emailIsError = viewModel.emailIsError.value
             val passwordText: String by viewModel.passwordText.observeAsState("")
+            val passwordHintText = viewModel.passwordHintText.value
+            val passwordIsError = viewModel.passwordIsError.value
             val confirmPasswordText: String by viewModel.confirmPasswordText.observeAsState("")
+            val confirmPasswordHintText = viewModel.confirmPasswordHintText.value
+            val confirmPasswordIsError = viewModel.confirmPasswordIsError.value
+            val isLoading = viewModel.isLoading.value
             HeaderSection(
                 mainText = "Create Account",
                 subText = "Please fill the inputs below."
             )
             InfoFieldSection(
                 nameText = nameText,
-                userNameText = phoneText,
+                nameHintText = nameHintText,
+                nameIsError = nameIsError,
+                userNameText = userNameText,
+                userNameHintText = userNameHintText,
+                userNameIsError = userNameIsError,
                 emailText = emailText,
+                emailHintText = emailHintText,
+                emailIsError = emailIsError,
                 passwordText = passwordText,
+                passwordHintText = passwordHintText,
+                passwordIsError = passwordIsError,
                 confirmPasswordText = confirmPasswordText,
+                confirmPasswordHintText = confirmPasswordHintText,
+                confirmPasswordIsError = confirmPasswordIsError,
                 onNameTextChanged = { viewModel.onNameTextChanged(it) },
                 onUserNameTextChanged = { viewModel.onPhoneTextChanged(it) },
                 onEmailTextChanged = { viewModel.onEmailTextChanged(it) },
@@ -81,9 +101,18 @@ fun SignUpScreen(
                                 // nothing yet
                             }
 
+                            override fun onUserDoesNotExist() {
+                                // nothing
+                            }
+
+                            override fun onAuthCredentialsWrong() {
+                                // nothing
+                            }
+
                         }
                     )
-                }
+                },
+                isLoading = isLoading
             )
             LoginRow(navController = navController)
         }
@@ -119,17 +148,27 @@ private fun LoginRow(navController: NavController?){
 }
 
 @Composable
-private fun SignupButton(onSignupClick: () -> Unit = {}){
+private fun SignupButton(
+    onSignupClick: () -> Unit = {},
+    isLoading: Boolean
+){
     Button(
         onClick = onSignupClick,
         shape = RoundedCornerShape(50),
-        modifier = Modifier.fillMaxWidth(0.5f)
-    ) {
-        Text(
-            text = "SIGN UP",
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            textAlign = TextAlign.Center
+        modifier = Modifier.fillMaxWidth(0.5f),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = MaterialTheme.colors.secondary
         )
+    ) {
+        if(!isLoading) {
+            Text(
+                text = "SIGN UP",
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                textAlign = TextAlign.Center
+            )
+        } else{
+            CircularProgressIndicator()
+        }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
@@ -137,10 +176,20 @@ private fun SignupButton(onSignupClick: () -> Unit = {}){
 @Composable
 private fun InfoFieldSection(
     nameText: String = "",
+    nameHintText: String,
+    nameIsError: Boolean,
     userNameText: String = "",
+    userNameHintText: String,
+    userNameIsError: Boolean,
     emailText: String = "",
+    emailHintText: String,
+    emailIsError: Boolean,
     passwordText: String = "",
+    passwordHintText: String,
+    passwordIsError: Boolean,
     confirmPasswordText: String = "",
+    confirmPasswordHintText: String,
+    confirmPasswordIsError: Boolean,
     onNameTextChanged: (String) -> Unit = {},
     onUserNameTextChanged: (String) -> Unit = {},
     onEmailTextChanged: (String) -> Unit = {},
@@ -148,45 +197,50 @@ private fun InfoFieldSection(
     onConfirmPasswordTextChanged: (String) -> Unit = {},
 ){
     InfoTextField(
-        hintText = "Full Name",
+        hintText = nameHintText,
         leadingIcon = Icons.Outlined.Person,
         text = nameText,
         onTextChanged = { onNameTextChanged(it) },
-        keyboardType = KeyboardType.Text
+        keyboardType = KeyboardType.Text,
+        isError = nameIsError,
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
-        hintText = "User Name",
+        hintText = userNameHintText,
         leadingIcon = Icons.Outlined.AccountCircle,
         text = userNameText,
         onTextChanged = { onUserNameTextChanged(it) },
-        keyboardType = KeyboardType.Text
+        keyboardType = KeyboardType.Text,
+        isError = userNameIsError,
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
-        hintText = "Email",
+        hintText = emailHintText,
         leadingIcon = Icons.Outlined.Email,
         text = emailText,
         onTextChanged = { onEmailTextChanged(it) },
-        keyboardType = KeyboardType.Email
+        keyboardType = KeyboardType.Email,
+        isError = emailIsError,
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
-        hintText = "Password",
+        hintText = passwordHintText,
         leadingIcon = Icons.Outlined.Lock,
         text = passwordText,
         onTextChanged = { onPasswordTextChanged(it) },
         keyboardType = KeyboardType.Password,
-        obfuscate = true
+        obfuscate = true,
+        isError = passwordIsError,
     )
     Spacer(modifier = Modifier.height(16.dp))
     InfoTextField(
-        hintText = "Confirm Password",
+        hintText = confirmPasswordHintText,
         leadingIcon = Icons.Outlined.Lock,
         text = confirmPasswordText,
         onTextChanged = { onConfirmPasswordTextChanged(it) },
         keyboardType = KeyboardType.Password,
-        obfuscate = true
+        obfuscate = true,
+        isError = confirmPasswordIsError,
     )
     Spacer(modifier = Modifier.height(16.dp))
 }
@@ -214,30 +268,5 @@ fun TitleBar(
                 )
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun TitleBarDemo(){
-    TitleBar()
-}
-
-@Preview
-@Composable
-fun SignupScreenDemo(){
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ){
-        HeaderSection(
-            mainText = "Signup",
-            subText = "Demo"
-        )
-        InfoFieldSection()
-        SignupButton()
-        LoginRow(navController = null)
     }
 }

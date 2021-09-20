@@ -1,19 +1,14 @@
 package com.example.chaes.ui.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -21,12 +16,6 @@ import com.example.chaes.models.Message
 import com.example.chaes.ui.detail.components.MessageTextField
 import com.example.chaes.ui.detail.components.MessagesList
 import com.example.chaes.ui.detail.viewModel.ChatDetailViewModel
-import com.example.chaes.utilities.Constants.dummyUID
-import com.example.chaes.utilities.NavigationRoutes
-import com.example.chaes.utilities.NavigationRoutes.chatDetailScreenRoute
-import com.example.chaes.utilities.NavigationRoutes.homeScreenRoute
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
@@ -76,6 +65,7 @@ fun ChatColumn(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(paddingValues = paddingValues)
             .padding(start = 8.dp, end = 8.dp, top = 8.dp)
             .background(
                 color = MaterialTheme.colors.primary,

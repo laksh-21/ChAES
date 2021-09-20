@@ -29,7 +29,8 @@ fun InfoTextField(
     obfuscate: Boolean = false,
     text: String,
     onTextChanged: (String) -> Unit,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
+    isError: Boolean = false
 ){
     var hidden by remember{ mutableStateOf(true) }
     val trailingIcon = if(hidden) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility
@@ -53,7 +54,10 @@ fun InfoTextField(
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            unfocusedLabelColor = if(isError) MaterialTheme.colors.error else MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
+            focusedLabelColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
         ),
         maxLines = 1,
         singleLine = true,
@@ -66,7 +70,8 @@ fun InfoTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = { focusManager.clearFocus() }
-        )
+        ),
+        isError = isError
     )
 }
 
@@ -77,6 +82,7 @@ fun InfoTextFieldDemo(){
         leadingIcon = Icons.Outlined.Email,
         obfuscate = true,
         text = "",
-        onTextChanged = {}
+        onTextChanged = {},
+        isError = true
     )
 }

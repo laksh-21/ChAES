@@ -57,6 +57,7 @@ fun HomeScreen(
                 .padding(horizontal = 8.dp)
         ) {
             val searchText: String by viewModel.searchUserText.observeAsState("")
+            val isLoading = viewModel.isLoading.value
             SearchSection(
                 searchText = searchText,
                 onSearchUserTextChanged = { viewModel.onSearchUserTextChanged(it) },
@@ -80,7 +81,8 @@ fun HomeScreen(
                             }
                         }
                     )
-                }
+                },
+                isLoading = isLoading
             )
             MessagesHeader(unreadCount = countUnread(conversations = conversations))
             ConversationsList(
@@ -111,7 +113,8 @@ fun countUnread(conversations: List<Conversation>): Int {
 fun SearchSection(
     searchText: String,
     onSearchUserTextChanged: (String) -> Unit,
-    onSearchUserClicked: () -> Unit
+    onSearchUserClicked: () -> Unit,
+    isLoading: Boolean
 ){
     Column(
         modifier = Modifier
@@ -130,7 +133,8 @@ fun SearchSection(
         SearchUserTextField(
             searchUserText = searchText,
             onSearchUserTextChanged = { onSearchUserTextChanged(it) },
-            onSearchUserClicked = { onSearchUserClicked() }
+            onSearchUserClicked = { onSearchUserClicked() },
+            isLoading = isLoading
         )
     }
 }

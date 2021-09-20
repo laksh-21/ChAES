@@ -116,7 +116,12 @@ class HomeScreenViewModel @Inject constructor(
         conversations.value = mutableConversationList.toList()
     }
 
+    val isLoading = mutableStateOf(false)
     fun onSearchUserClicked(callback: UserExistsCallback){
+        if(_searchUserText.value.isNullOrEmpty()){
+            return
+        }
+        isLoading.value = true
         dbRepo.doesUserExist(
             userName = searchUserText.value,
             callback = object : UserExistsCallback{
@@ -126,16 +131,19 @@ class HomeScreenViewModel @Inject constructor(
                 ) {
                     Timber.d("User does exist")
                     callback.userExists(uid, name)
+                    isLoading.value = false
                 }
 
                 override fun userDoesNotExist() {
                     Timber.d("User does not exist")
                     callback.userDoesNotExist()
+                    isLoading.value = false
                 }
 
                 override fun userCheckFailed() {
                     Timber.d("Something went wrong. Try again")
                     callback.userCheckFailed()
+                    isLoading.value = false
                 }
 
             }

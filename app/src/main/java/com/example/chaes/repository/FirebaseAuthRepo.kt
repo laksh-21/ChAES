@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.chaes.repository.callbacks.SignInCallback
 import com.example.chaes.repository.callbacks.SignUpCallback
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -23,23 +25,25 @@ class FirebaseAuthRepo(app: Context) {
     }
 
     fun login(
-        email: String?,
-        password: String?,
+        email: String,
+        password: String,
         callback: SignInCallback
     ){
-        if(email != null && password != null){
-            auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener{ task ->
-                    if (task.isSuccessful) {
-                        Timber.d("Sign-in Successful")
-                        userLoggedIn.value = true
-                        callback.onSignInSuccessful()
-                    } else {
-                        Timber.d("Sign-in failed")
-                        callback.onSignInFailed()
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Timber.d("Sign-in Successful")
+                    userLoggedIn.value = true
+                    callback.onSignInSuccessful()
+                } else {
+                    Timber.d("Sign-in failed")
+                    when(task.exception){
+                        is FirebaseAuthInvalidUserException -> callback.onUserDoesNotExist()
+                        is FirebaseAuthInvalidCredentialsException -> callback.onAuthCredentialsWrong()
+                        else -> callback.onSignInFailed()
                     }
                 }
-        }
+            }
     }
 
     fun register(

@@ -2,16 +2,12 @@ package com.example.chaes.ui.detail.viewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.chaes.models.Conversation
 import com.example.chaes.models.Message
 import com.example.chaes.repository.FirestoreRepo
 import com.example.chaes.utilities.Constants.dummyUID
 import com.example.chaes.utilities.Encryptor
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -33,7 +29,6 @@ class ChatDetailViewModel @Inject constructor(
 
     // Listener code start
     private lateinit var query: Query
-    private lateinit var conversationQuery: Query
     private var registration: ListenerRegistration? = null
 
     val messages = mutableStateOf(listOf<Message>())
@@ -114,6 +109,9 @@ class ChatDetailViewModel @Inject constructor(
 
     // writer code start
     fun addMessage(){
+        if(messageText.value.isEmpty()){
+            return
+        }
         dbRepo.addMessage(
             messageText = messageText.value,
             userName = userName,
