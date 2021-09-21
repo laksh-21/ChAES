@@ -74,7 +74,7 @@ fun SearchUserTextField(
                     contentDescription = "Go"
                 )
             } else{
-                CircularProgressIndicator()
+                CircularProgressIndicator(modifier = Modifier.padding(top = 8.dp))
             }
         }
     }
